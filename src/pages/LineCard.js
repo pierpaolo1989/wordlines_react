@@ -48,7 +48,23 @@ function LineCard({ p1, p2, p3 }) {
     }
 
     const addLetter = () => {
-        
+        try {
+            let formEl = document.forms.Word;
+            let isFound = false;
+            const pageFormElements = getAllFormElements(formEl);
+            pageFormElements.forEach((element, idx) => {
+                if (element.value === "" || element.value === undefined) {
+                    element.value = p2.substring(idx + 1, idx + 2);
+                    formEl[idx+1].focus();
+                    isFound = true
+                };
+                if (isFound) {
+                    throw new Error('Loop stopped');
+                }
+            });
+        } catch (error) {
+            console.log('Loop was stopped due to an exception.');
+        }
     }
 
     const nextWord = () => {
@@ -76,6 +92,13 @@ function LineCard({ p1, p2, p3 }) {
     const handleKeyPress = (event) => {
         if (event.keyCode === 13) {
             checkWord();
+        } else if (event.keyCode === 8) {
+            let formEl = document.forms.Word;
+            const pageFormElements = getAllFormElements(formEl);
+            pageFormElements.forEach((element) => {
+                    element.value = "";
+                    formEl[0].focus();
+            });
         }
     }
 

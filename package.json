@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "json-loader": "^0.5.7",
     "react-router-dom": "^6.23.1"
   }
 }

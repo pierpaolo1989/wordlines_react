@@ -1,0 +1,26 @@
+/* src/GameOver.css */
+@keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+      filter: blur(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+    }
+  }
+  
+  .gameover-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .gameover-text {
+    font-size: 5rem;
+    color: red;
+    text-shadow: 2px 2px 5px black;
+    animation: fadeIn 1s ease-in-out;
+  }

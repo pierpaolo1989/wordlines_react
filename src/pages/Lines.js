@@ -5,6 +5,8 @@ import { Context } from "./GameContext";
 import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
+import mockedData from '../mock.json';
+
 
 const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_KEY);
 
@@ -27,68 +29,7 @@ function Lines() {
 
     async function getLines() {
         if (process.env.REACT_APP_MOCKED === "true") {
-            setLines([
-                {
-                    "id": 1,
-                    "p1": "VERDE",
-                    "p2": "INSALATA",
-                    "p3": "RUSSA"
-                },
-                {
-                    "id": 2,
-                    "p1": "NUDO",
-                    "p2": "INTEGRALE",
-                    "p3": "FARINA"
-                },
-                {
-                    "id": 3,
-                    "p1": "CAPOLAVORO",
-                    "p2": "MUSEO",
-                    "p3": "NOTTE"
-                },
-                {
-                    "id": 4,
-                    "p1": "CAMINO",
-                    "p2": "CALZA",
-                    "p3": "PENNELLO"
-                },
-                {
-                    "id": 5,
-                    "p1": "PALO",
-                    "p2": "COMPLICE",
-                    "p3": "SGUARDO"
-                },
-                {
-                    "id": 6,
-                    "p1": "PENNELLO",
-                    "p2": "BARBA",
-                    "p3": "PALO"
-                },
-                {
-                    "id": 7,
-                    "p1": "DECANTARE",
-                    "p2": "VINO",
-                    "p3": "BOTTIGLIA"
-                },
-                {
-                    "id": 8,
-                    "p1": "TAGLIO",
-                    "p2": "NETTO",
-                    "p3": "CONTENUTO"
-                },
-                {
-                    "id": 9,
-                    "p1": "CAVALUCCIO",
-                    "p2": "MARINO",
-                    "p3": "SALE"
-                },
-                {
-                    "id": 10,
-                    "p1": "LIBERO",
-                    "p2": "POSTO",
-                    "p3": "COPERTO"
-                }
-            ])
+            setLines(mockedData)
         } else {
             let language = localStorage.getItem("language")
             const { data } = await supabase.rpc(language === "IT" ? "get_random_lines" : "get_random_lines_eng");
