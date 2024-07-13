@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/wordlines_react/static/css/main.ab181efd.css",
-    "main.js": "/wordlines_react/static/js/main.59b0436a.js",
+    "main.js": "/wordlines_react/static/js/main.ec47a2c1.js",
     "static/js/952.ae90388e.chunk.js": "/wordlines_react/static/js/952.ae90388e.chunk.js",
     "static/js/453.0bdb9e52.chunk.js": "/wordlines_react/static/js/453.0bdb9e52.chunk.js",
     "static/media/confetti-1925258_1280.png": "/wordlines_react/static/media/confetti-1925258_1280.1afb3091c354286cfee4.png",
     "index.html": "/wordlines_react/index.html",
     "main.ab181efd.css.map": "/wordlines_react/static/css/main.ab181efd.css.map",
-    "main.59b0436a.js.map": "/wordlines_react/static/js/main.59b0436a.js.map",
+    "main.ec47a2c1.js.map": "/wordlines_react/static/js/main.ec47a2c1.js.map",
     "952.ae90388e.chunk.js.map": "/wordlines_react/static/js/952.ae90388e.chunk.js.map",
     "453.0bdb9e52.chunk.js.map": "/wordlines_react/static/js/453.0bdb9e52.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.ab181efd.css",
-    "static/js/main.59b0436a.js"
+    "static/js/main.ec47a2c1.js"
   ]
 }
