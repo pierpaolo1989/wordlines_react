@@ -104,10 +104,10 @@ function LineCard({ p1, p2, p3 }) {
 
     return (
         <div className="text-center">
-            <p className="text-5xl">{p1}</p>
+            <p className="text-5xl">{p1.toUpperCase()}</p>
             <div className="second_word mt-5">
                 <form id="Word">
-                    <span className="mr-2">{firstLetter}</span>
+                    <span className="mr-2">{firstLetter.toUpperCase()}</span>
                     {p2Array.map((x, i) =>
                         i === 0 ?
                             <input type="text" style={style} onChange={(event) => handleChange(event)} autoFocus key={i}
@@ -119,10 +119,10 @@ function LineCard({ p1, p2, p3 }) {
                                 className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 maxLength="1"></input>
                     )}
-                    <span className="ml-2">{lastLetter}</span>
+                    <span className="ml-2">{lastLetter.toUpperCase()}</span>
                 </form>
             </div>
-            <p className="text-5xl mt-5">{p3}</p>
+            <p className="text-5xl mt-5">{p3.toUpperCase()}</p>
             <div className="pulsantiera">
                 <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={checkWord}>

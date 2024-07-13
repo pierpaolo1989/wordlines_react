@@ -1,0 +1,35 @@
+.victory-container {
+    text-align: center;
+  }
+  
+  .confetti {
+    width: 100px;
+    height: 100px;
+    background: url(../confetti-1925258_1280.png);
+    background-size: cover;
+    margin: 20px auto;
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  
+  .confetti-enter {
+    opacity: 0;
+    transform: scale(0.1);
+  }
+  
+  .confetti-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
+  .confetti-exit {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  .confetti-exit-active {
+    opacity: 0;
+    transform: scale(0.1);
+    transition: opacity 500ms, transform 500ms;
+  }

@@ -2,6 +2,7 @@
   "name": "wordlines",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://pierpaolo1989.github.io/wordlines_react",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
@@ -21,13 +22,16 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.14.1",
     "react-spring": "^9.7.3",
+    "react-transition-group": "^4.4.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "json-loader": "^0.5.7",
     "react-router-dom": "^6.23.1"
   }

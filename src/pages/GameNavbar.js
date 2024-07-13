@@ -14,7 +14,7 @@ function GameNavbar() {
     const for_loop = []
     for (let i = 0; i < up; i++) {
         for_loop.push(
-            <FontAwesomeIcon icon={faHeart} className="text-red-500 m-1" />
+            <FontAwesomeIcon icon={faHeart} className="text-red-500 m-1" key={i} />
         );
     };
     

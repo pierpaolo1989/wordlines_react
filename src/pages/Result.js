@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
 import GameOver from "./GameOver";
+import VictoryAnimation from "./VictoryAnimation";
 
 function Result() {
 
@@ -20,7 +21,9 @@ function Result() {
 
     return (
         <div className="App-header">
-            <GameOver />
+            {score === 100 ? 
+            <VictoryAnimation /> : 
+            <GameOver /> }
             <span>Il tuo risultato è: {score}</span>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10"
                 onClick={play}>
