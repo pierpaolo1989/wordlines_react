@@ -13,6 +13,7 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" element={<MainPage />} />
+      <Route path="/wordlines_react" element={<MainPage />} />
         <Route path="/lines/:language"element={<Lines />} />
         <Route path="/result" element={<Result />} />
         <Route path="/*" element={<NoPage />} />
