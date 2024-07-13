@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+.borderFlag {
+  cursor: pointer;
+}
+
+.mt-minus-20 {
+  margin-top: -40px;;
+}
+
+.borderFlagSelected {
+   border: 2px solid white;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

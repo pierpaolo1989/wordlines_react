@@ -1,12 +1,19 @@
+import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
 
 function LineCard({ p1, p2, p3 }) {
-    const firstLetter = p2.substring(0, 1);
-    const lastLetter = p2.substring(p2.length - 1);
-    const p2Array = [];
+    var firstLetter = p2.substring(0, 1);
+    var lastLetter = p2.substring(p2.length - 1);
+    const { setTimeLeft } = useContext(Context)
 
-    const { setIndex } = useContext(Context)
+    const p2Array = [];
+    const navigate = useNavigate()
+    const multiplayer = process.env.REACT_APP_SCORE_MULTIPLAYER;
+
+    const { index, setIndex } = useContext(Context)
     const { setScore } = useContext(Context)
 
     for (let i = 1; i < p2.length - 1; i++) {
@@ -14,25 +21,61 @@ function LineCard({ p1, p2, p3 }) {
     }
 
     const style = {
-        "text-transform": "uppercase",
+        "textTransform": "uppercase",
         "textAlign": "center"
     }
 
+    const getAllFormElements = element => Array.from(element.elements).filter(tag => ["input"].includes(tag.tagName.toLowerCase()));
+
+
     const checkWord = () => {
-        setIndex((index) => index+1)
-        setScore((score) => score + 10)
+        let formEl = document.forms.Word;
+        const pageFormElements = getAllFormElements(formEl);
+        let word = firstLetter;
+        pageFormElements.forEach((element) => {
+            word = word + element.value;
+        });
+        word = word + lastLetter
+        if (word.toLowerCase() === p2.toLowerCase()) {
+            setScore((score) => score + parseInt(multiplayer))
+            if (index < Number(process.env.REACT_APP_MIN_LINES_PER_GAMES)) {
+                setIndex((index) => index + 1)
+                setTimeLeft(30)
+            } else {
+                navigate("/result");
+            }
+        }
+    }
+
+    const addLetter = () => {
+        
+    }
+
+    const nextWord = () => {
+        if (index < Number(process.env.REACT_APP_MIN_LINES_PER_GAMES)) {
+            setIndex((index) => index + 1)
+            setTimeLeft(30)
+        } else {
+            navigate("/result");
+        }
     }
 
     const handleChange = (event) => {
-        console.log(event)
         const form = event.target.form;
         const _index = [...form].indexOf(event.target);
-        console.log(_index)
-        if(_index < p2Array.length-1){
+        if (_index < p2Array.length - 1) {
             form[_index + 1].focus();
             event.preventDefault();
+        } else if (_index < p2Array.length) {
+            form[_index].focus();
         } else {
             form[_index].blur();
+        }
+    }
+
+    const handleKeyPress = (event) => {
+        if (event.keyCode === 13) {
+            checkWord();
         }
     }
 
@@ -40,12 +83,18 @@ function LineCard({ p1, p2, p3 }) {
         <div className="text-center">
             <p className="text-5xl">{p1}</p>
             <div className="second_word mt-5">
-                <form>
+                <form id="Word">
                     <span className="mr-2">{firstLetter}</span>
-                    {p2Array.map((x) =>
-                        <input type="text" style={style} onChange={(event) => handleChange(event)}
-                            className="w-10 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            smaxLength="1"></input>
+                    {p2Array.map((x, i) =>
+                        i === 0 ?
+                            <input type="text" style={style} onChange={(event) => handleChange(event)} autoFocus key={i}
+                                onKeyUpCapture={(event) => handleKeyPress(event)}
+                                className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                maxLength="1"></input>
+                            : <input type="text" style={style} onChange={(event) => handleChange(event)} key={i}
+                                onKeyUpCapture={(event) => handleKeyPress(event)}
+                                className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                maxLength="1"></input>
                     )}
                     <span className="ml-2">{lastLetter}</span>
                 </form>
@@ -55,6 +104,16 @@ function LineCard({ p1, p2, p3 }) {
                 <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={checkWord}>
                     Check
+                </button>
+            </div>
+            <div className="helpers">
+                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                    onClick={nextWord}>
+                    <FontAwesomeIcon icon={faArrowRight} className="text-white-500 m-1" />
+                </button>
+                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                    onClick={addLetter}>
+                    <FontAwesomeIcon icon={faPlus} className="text-white-500 m-1" />
                 </button>
             </div>
         </div>
