@@ -124,17 +124,17 @@ function LineCard({ p1, p2, p3 }) {
             </div>
             <p className="text-5xl mt-5">{p3.toUpperCase()}</p>
             <div className="pulsantiera">
-                <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border"
                     onClick={checkWord}>
                     Check
                 </button>
             </div>
             <div className="helpers">
-                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
                     onClick={nextWord}>
                     <FontAwesomeIcon icon={faArrowRight} className="text-white-500 m-1" />
                 </button>
-                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
                     onClick={addLetter}>
                     <FontAwesomeIcon icon={faPlus} className="text-white-500 m-1" />
                 </button>

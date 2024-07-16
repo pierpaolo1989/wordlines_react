@@ -1,14 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
+import mockedData from '../mock.json';
 import { Context } from "./GameContext";
+import { supabase } from "./GameContext";
 import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
-import mockedData from '../mock.json';
-
-
-const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_KEY);
 
 const override: CSSProperties = {
     display: "block",

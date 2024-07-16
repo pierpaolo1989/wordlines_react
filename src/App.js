@@ -5,8 +5,10 @@ import Lines from './pages/Lines';
 import MainPage from './pages/MainPage';
 import NoPage from './pages/NoPage';
 import Result from './pages/Result';
+import { createClient } from '@supabase/supabase-js';
 
 function App() {
+
   localStorage.setItem("language", "IT")
   return (
     <GameContext>
