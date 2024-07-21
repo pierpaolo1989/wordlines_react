@@ -2,10 +2,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import GameContext from './pages/GameContext';
 import Lines from './pages/Lines';
+import Login from './pages/Login';
 import MainPage from './pages/MainPage';
 import NoPage from './pages/NoPage';
 import Result from './pages/Result';
-import { createClient } from '@supabase/supabase-js';
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -18,6 +19,8 @@ function App() {
       <Route path="/wordlines_react" element={<MainPage />} />
         <Route path="/lines/:language"element={<Lines />} />
         <Route path="/result" element={<Result />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/*" element={<NoPage />} />
     </Routes>
   </BrowserRouter>

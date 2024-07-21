@@ -2,10 +2,10 @@ import { CSSProperties, useContext, useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import mockedData from '../mock.json';
 import { Context } from "./GameContext";
-import { supabase } from "./GameContext";
 import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
+import { supabase } from "../utils/SupabaseClient";
 
 const override: CSSProperties = {
     display: "block",

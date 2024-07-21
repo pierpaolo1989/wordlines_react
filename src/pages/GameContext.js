@@ -1,8 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import { createContext, useState } from "react";
 
 export const Context = createContext()
-export const supabase = createClient(process.env.REACT_APP_SUPABASE_URL, process.env.REACT_APP_SUPABASE_KEY);
 
 function GameContext({ children }) {
 
