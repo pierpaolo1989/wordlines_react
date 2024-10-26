@@ -6,7 +6,7 @@ function Login() {
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [setLoading] = useState(false);
 
     const handleSignInWithGitHub = async (e) => {
       
@@ -27,6 +27,7 @@ function Login() {
     }
   
     const handleSignIn = async (e) => {
+        
         e.preventDefault()
     
         setLoading(true)
