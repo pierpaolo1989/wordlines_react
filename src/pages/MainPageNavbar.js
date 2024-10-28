@@ -1,9 +1,10 @@
 import { faVolumeXmark, faSignIn, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './LifeAnimation.css';
 import { supabase } from "../utils/SupabaseClient";
+import { Context } from "./GameContext";
 
 function MainPageNavbar() {
   
@@ -11,7 +12,7 @@ function MainPageNavbar() {
   const style = { "backgroundColor": "#282c34"}
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
-  const [mute, setMute] = useState(false)
+  const { mute,setMute } = useContext(Context)
   
   const toggleSound = () => {
     setMute(oldValue => !oldValue);
