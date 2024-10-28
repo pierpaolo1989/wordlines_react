@@ -6,7 +6,7 @@ function Login() {
     
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleSignInWithGitHub = async (e) => {
       
@@ -28,11 +28,10 @@ function Login() {
   
     const handleSignIn = async (e) => {
         
-        e.preventDefault()
-    
+      e.preventDefault()
         setLoading(true)
+
         const { error } = await supabase.auth.signUp({ email, password })
-    
         if (error) {
           alert(error.error_description || error.message)
         } else {

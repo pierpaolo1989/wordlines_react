@@ -27,7 +27,6 @@ function LineCard({ p1, p2, p3 }) {
 
     const getAllFormElements = element => Array.from(element.elements).filter(tag => ["input"].includes(tag.tagName.toLowerCase()));
 
-
     const checkWord = () => {
         let formEl = document.forms.Word;
         const pageFormElements = getAllFormElements(formEl);

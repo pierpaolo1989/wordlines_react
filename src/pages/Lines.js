@@ -1,4 +1,4 @@
-import { CSSProperties, useContext, useEffect, useState } from "react";
+import { CSSProperties, useContext, useEffect, useState, useRef } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import mockedData from '../mock.json';
 import { Context } from "./GameContext";
@@ -6,6 +6,8 @@ import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
 import { supabase } from "../utils/SupabaseClient";
+import audio from './audio.mp3' // relative path to image 
+
 
 const override: CSSProperties = {
     display: "block",
@@ -19,9 +21,25 @@ function Lines() {
     const [loading] = useState(true)
     const [color] = useState("#ffffff");
     const { index } = useContext(Context)
+    const audioRef = useRef(null);
+    const [isPlaying, setIsPlaying] = useState(true);
+
+    const toggleSound = () => {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    };
 
     useEffect(() => {
         getLines();
+        if (audioRef.current) {
+            audioRef.current.play().catch((error) => {
+                console.error("Errore durante l'avvio dell'audio:", error);
+            });
+        }
     }, []);
 
     async function getLines() {
@@ -43,6 +61,7 @@ function Lines() {
 
                 <Timer />
                 <br />
+                <audio ref={audioRef} src={audio} />
                 {lines ?
                     <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
 

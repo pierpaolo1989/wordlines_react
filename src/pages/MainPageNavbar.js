@@ -1,4 +1,4 @@
-import { faCog, faSignIn } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeXmark, faSignIn, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +11,10 @@ function MainPageNavbar() {
   const style = { "backgroundColor": "#282c34"}
   const [user, setUser] = useState(null)
   const [open, setOpen] = useState(false)
+  const [mute, setMute] = useState(false)
   
-  const mute = () => {
-
+  const toggleSound = () => {
+    setMute(oldValue => !oldValue);
   }
 
   const login = () => {
@@ -61,7 +62,7 @@ function MainPageNavbar() {
                 <FontAwesomeIcon icon={faSignIn} className="text-white" />
               </a>
               <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
-                <FontAwesomeIcon icon={faCog} className="text-white" onClick={mute} />
+                <FontAwesomeIcon icon={mute ? faVolumeXmark : faVolumeHigh} className="text-white" onClick={toggleSound} />
               </a>
               {user ?
                 <div>
