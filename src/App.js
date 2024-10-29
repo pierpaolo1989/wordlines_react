@@ -7,6 +7,8 @@ import MainPage from './pages/MainPage';
 import NoPage from './pages/NoPage';
 import Result from './pages/Result';
 import Profile from './pages/Profile';
+import Register from './pages/Register';
+import Support from './pages/Support';
 
 function App() {
 
@@ -21,6 +23,8 @@ function App() {
         <Route path="/result" element={<Result />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Register />} />
+        <Route path="/support" element={<Support />} />
         <Route path="/*" element={<NoPage />} />
     </Routes>
   </BrowserRouter>

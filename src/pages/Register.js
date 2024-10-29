@@ -1,64 +1,63 @@
 import { useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../utils/SupabaseClient";
 
-function Login() {
+function Register() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('')
 
-  const handleSignInWithGitHub = async (e) => {
 
+  const register = (email, password) =>
+    supabase.auth.signUp({ email, password });
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { error } = await supabase.auth.signInWithOAuth(
-      {
-        provider: 'github',
-      },
-      {
-        redirectTo: 'http://localhost:3000/',
+    if (
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError("Please fill all the fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords don't match");
+      return;
+    }
+    try {
+      setError("");
+      setLoading(true);
+      const { data, error } = await register(
+        email,
+        password
+      );
+      if (!error && data) {
+        alert(
+          "Registration Successful. Check your email to confirm your account"
+        );
       }
-    );
-
-    if (error) {
-      setError(JSON.stringify(error));
+    } catch (error) {
+      setError("Error in Creating Account");
     }
-  }
-
-  const handleSignIn = async (e) => {
-
-    e.preventDefault()
-    setLoading(true)
-
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      setError(error.error_description || error.message)
-    } else {
-      alert('Check your email for the login link!')
-    }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-800">
       <div className="max-w-lg w-full">
         <h1 className="text-3xl font-semibold text-center text-white">
-          Sign in to your account
+          Registration
         </h1>
 
         <div className="flex flex-col p-6">
-          <button
-            className="text-lg text-white font-semibold bg-gray-900 py-2 px-4 rounded-md focus:outline-none focus:ring-2"
-            onClick={handleSignInWithGitHub}
-          >
-            Sign In with GitHub
-          </button>
 
-          <hr className="bg-gray-600 border-0 h-px my-8" />
+          <hr className="bg-gray-600 border-0 h-px my-4" />
 
-          <form className="flex flex-col" onSubmit={handleSignIn}>
+          <form className="flex flex-col" onSubmit={handleSubmit}>
             <label htmlFor="email" className="text-gray-200">
               Email
             </label>
@@ -82,8 +81,19 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <label htmlFor="confirmPassword" className="mt-6 text-gray-200">
+              Confirm Password
+            </label>
+            <input
+              className="py-2 px-4 rounded-md focus:outline-none focus:ring-2"
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
 
-            <div class="error text-red ont-semibold mt-2">
+            <div class="error text-red-600 font-semibold mt-2">
               {error}
             </div>
 
@@ -94,8 +104,8 @@ function Login() {
               Sign in with Email
             </button>
             <div className="w-100 text-center mt-5 text-white">
-        Already a User? <Link to={"/login"}>Login</Link>
-      </div>
+              Already a User? <Link to={"/login"}>Login</Link>
+            </div>
           </form>
         </div>
       </div>
@@ -103,4 +113,4 @@ function Login() {
   );
 };
 
-export default Login;
+export default Register;

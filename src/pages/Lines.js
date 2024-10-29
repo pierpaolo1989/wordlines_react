@@ -21,6 +21,7 @@ function Lines() {
     const [loading] = useState(true)
     const [color] = useState("#ffffff");
     const { index } = useContext(Context)
+    const { mute } = useContext(Context)
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(true);
 
@@ -61,7 +62,7 @@ function Lines() {
 
                 <Timer />
                 <br />
-                <audio ref={audioRef} src={audio} />
+                { !mute ? <audio ref={audioRef} src={audio} loop /> : <></> }
                 {lines ?
                     <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
 
