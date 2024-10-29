@@ -94,8 +94,8 @@ function Login() {
               Sign in with Email
             </button>
             <div className="w-100 text-center mt-5 text-white">
-        Already a User? <Link to={"/login"}>Login</Link>
-      </div>
+              Don't have an account? <Link to={"/registration"}>Register</Link>
+            </div>
           </form>
         </div>
       </div>
