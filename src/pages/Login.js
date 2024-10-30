@@ -83,7 +83,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div class="error text-red ont-semibold mt-2">
+            <div class="error text-red-500 ont-semibold mt-2">
               {error}
             </div>
 

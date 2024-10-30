@@ -9,6 +9,7 @@ import Result from './pages/Result';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Support from './pages/Support';
+import Account from './pages/Account';
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
       <Route path="/wordlines_react" element={<MainPage />} />
         <Route path="/lines/:language"element={<Lines />} />
         <Route path="/result" element={<Result />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<Account />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Register />} />
         <Route path="/support" element={<Support />} />

@@ -3,38 +3,37 @@ import { supabase } from '../utils/SupabaseClient'
 import Avatar from './Avatar'
 import { useNavigate } from 'react-router-dom'
 
-function Profile() {
+function Profile({ session }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState(null)
   const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
-  const [session, setSession] = useState(null)
   const navigate = useNavigate();
 
   useEffect(() => {
+    debugger;
     let ignore = false
     async function getProfile() {
+      debugger;
       setLoading(true)
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setSession(session)
-        const { user } = session
+      const { user } = session
 
-        const { data, error } = supabase
-          .from('profiles')
-          .select(`username, website, avatar_url`)
-          .eq('id', user.id)
-          .single()
+      const { data, error } = await supabase
+        .from('profiles')
+        .select(`username, website, avatar_url`)
+        .eq('id', user.id)
+        .single()
 
-        if (!ignore) {
-          if (error) {
-            console.warn(error)
-          } else if (data) {
-            setUsername(data.username)
-            setWebsite(data.website)
-            setAvatarUrl(data.avatar_url)
-          }
+      if (!ignore) {
+        if (error) {
+          console.warn(error)
+        } else if (data) {
+          setUsername(data.username)
+          setWebsite(data.website)
+          setAvatarUrl(data.avatar_url)
         }
-      })
+      }
+
       setLoading(false)
     }
 
@@ -44,6 +43,7 @@ function Profile() {
       ignore = true
     }
   }, [session])
+
 
   async function updateProfile(event, avatarUrl) {
     event.preventDefault()
