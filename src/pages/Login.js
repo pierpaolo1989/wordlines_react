@@ -18,7 +18,7 @@ function Login() {
         provider: 'github',
       },
       {
-        redirectTo: 'http://localhost:3000/',
+        redirectTo: process.env.REACT_APP_REDIRECT_LOGIN_URL,
       }
     );
 
