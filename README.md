@@ -31,8 +31,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run deploy`
 
-Deploy the app through github page.
-See the section [Deploying React apps to GitHub Pages] (https://blog.logrocket.com/deploying-react-apps-github-pages/) for more information
+Deploy the app through github page.\
+See the section [https://blog.logrocket.com/deploying-react-apps-github-pages/] (https://blog.logrocket.com/deploying-react-apps-github-pages/) for more information.
 
 ### `npm run eject`
 

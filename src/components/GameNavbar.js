@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { Context } from "./GameContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import ScoreAnimation from "./ScoreAnimation";
-import './LifeAnimation.css'
+import ScoreAnimation from "./animations/ScoreAnimation";
+import '../components/animations/LifeAnimation.css'
 
 function GameNavbar() {
     
