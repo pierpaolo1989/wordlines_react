@@ -1,35 +1,25 @@
-.victory-container {
-    text-align: center;
-  }
-  
-  .confetti {
-    width: 100px;
-    height: 100px;
-    background: url(../confetti-1925258_1280.png);
-    background-size: cover;
-    margin: 20px auto;
+/* src/GameOver.css */
+@keyframes fadeIn {
+  0% {
     opacity: 0;
-    transform: scale(0.1);
+    transform: scale(0.5);
+    filter: blur(10px);
   }
-  
-  .confetti-enter {
-    opacity: 0;
-    transform: scale(0.1);
-  }
-  
-  .confetti-enter-active {
+  100% {
     opacity: 1;
     transform: scale(1);
-    transition: opacity 500ms, transform 500ms;
+    filter: blur(0);
   }
-  
-  .confetti-exit {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
-  .confetti-exit-active {
-    opacity: 0;
-    transform: scale(0.1);
-    transition: opacity 500ms, transform 500ms;
-  }
+}
+
+.gameover-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameover-text {
+  font-size: 5rem;
+  text-shadow: 2px 2px 5px black;
+  animation: fadeIn 1s ease-in-out;
+}

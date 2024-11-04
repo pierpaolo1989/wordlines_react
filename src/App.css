@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.bg-primary-color {
+  background-color: "#282c34",
+}
+
 .mt-minus-20 {
   margin-top: -40px;;
 }

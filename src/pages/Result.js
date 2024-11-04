@@ -25,7 +25,7 @@ function Result() {
             <VictoryAnimation /> : 
             <GameOver /> }
             <span>Il tuo risultato è: {score}</span>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-10"
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-10 border"
                 onClick={play}>
                 Play
             </button>

@@ -20,7 +20,6 @@
   
   .gameover-text {
     font-size: 5rem;
-    color: red;
     text-shadow: 2px 2px 5px black;
     animation: fadeIn 1s ease-in-out;
   }

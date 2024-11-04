@@ -1,21 +1,13 @@
-import React, { useState } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import React from 'react';
 import './VictoryAnimation.css';
 
 const VictoryAnimation = () => {
   const show = true
-  return (
-    <div className="victory-container">
-      <CSSTransition
-        in={show}
-        timeout={500}
-        classNames="confetti"
-        unmountOnExit
-      >
-        <div className="confetti"></div>
-      </CSSTransition>
-    </div>
-  );
+    return (
+      <div className="gameover-container">
+        <div className="gameover-text text-green-500">Good job</div>
+      </div>
+    );
 };
 
 export default VictoryAnimation;
