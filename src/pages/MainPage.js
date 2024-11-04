@@ -2,7 +2,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { GB, IT } from 'country-flag-icons/react/3x2';
 import { useNavigate } from "react-router-dom";
-import MainPageNavbar from './MainPageNavbar';
+import MainPageNavbar from '../components/MainPageNavbar';
 
 function MainPage() {
 

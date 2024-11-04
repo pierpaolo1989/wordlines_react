@@ -1,15 +1,14 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import GameContext from './pages/GameContext';
-import Lines from './pages/Lines';
-import Login from './pages/Login';
+import Account from './components/Account';
+import GameContext from './components/GameContext';
+import Lines from './components/Lines';
+import Login from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import NoPage from './pages/NoPage';
-import Result from './pages/Result';
-import Profile from './pages/Profile';
-import Register from './pages/Register';
-import Support from './pages/Support';
-import Account from './pages/Account';
+import Register from './pages/RegisterPage';
+import Result from './pages/ResultPage';
+import Support from './pages/SupportPage';
 
 function App() {
 

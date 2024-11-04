@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/SupabaseClient'
-import Profile from './Profile'
+import Profile from '../pages/ProfilePage'
 
 function Account() {
   const [session, setSession] = useState(null)

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../utils/SupabaseClient'
-import Avatar from './Avatar'
+import Avatar from '../components/Avatar'
 import { useNavigate } from 'react-router-dom'
 
 function Profile({ session }) {
@@ -14,7 +14,6 @@ function Profile({ session }) {
     debugger;
     let ignore = false
     async function getProfile() {
-      debugger;
       setLoading(true)
       const { user } = session
 
@@ -116,12 +115,12 @@ function Profile({ session }) {
               value={website || ''}
               onChange={(e) => setWebsite(e.target.value)}
             />
-            <label htmlFor="website" className="mt-6 text-gray-200">
+            <label htmlFor="username" className="mt-6 text-gray-200">
               Username
             </label>
             <input
               className="py-2 px-4 rounded-md focus:outline-none focus:ring-2"
-              type="url"
+              type="text"
               id="username"
               placeholder="Enter username"
               value={username || ''}

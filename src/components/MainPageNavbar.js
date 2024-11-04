@@ -1,8 +1,8 @@
-import { faVolumeXmark, faSignIn, faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { faSignIn, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './LifeAnimation.css';
+import '../components/animations/LifeAnimation.css';
 import { supabase } from "../utils/SupabaseClient";
 import { Context } from "./GameContext";
 
@@ -64,7 +64,7 @@ function MainPageNavbar() {
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="flex space-x-4">
-              <a onClick={login} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={{ "cursor": "pointer" }}>
+              <a onClick={login} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={user ? { "cursor": "pointer", "display": "none" } : {"cursor": "pointer"}}>
                 <FontAwesomeIcon icon={faSignIn} className="text-white" />
               </a>
               <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">

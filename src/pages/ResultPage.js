@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Context } from "./GameContext";
-import GameOver from "./GameOver";
-import VictoryAnimation from "./VictoryAnimation";
+import { Context } from "../components/GameContext";
+import GameOver from "../components/animations/GameOverAnimation";
+import VictoryAnimation from "../components/animations/VictoryAnimation";
 
 function Result() {
 
