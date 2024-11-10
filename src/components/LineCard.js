@@ -1,6 +1,6 @@
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
 
@@ -8,6 +8,9 @@ function LineCard({ p1, p2, p3 }) {
     var firstLetter = p2.substring(0, 1);
     var lastLetter = p2.substring(p2.length - 1);
     const { setTimeLeft } = useContext(Context)
+    const { numberHelp1, setNumberHelp1 } = useContext(Context)
+    const { numberHelp2, setNumberHelp2 } = useContext(Context)
+
 
     const p2Array = [];
     const navigate = useNavigate()
@@ -23,6 +26,15 @@ function LineCard({ p1, p2, p3 }) {
     const style = {
         "textTransform": "uppercase",
         "textAlign": "center"
+    }
+
+    const styleNotification = {
+        "position": "relative",
+        "top": "-30px",
+        "right": "-20px",
+        "padding": "4px 5px",
+        "border-radius": "50%",
+        "background": "red",
     }
 
     const getAllFormElements = element => Array.from(element.elements).filter(tag => ["input"].includes(tag.tagName.toLowerCase()));
@@ -51,16 +63,19 @@ function LineCard({ p1, p2, p3 }) {
             let formEl = document.forms.Word;
             let isFound = false;
             const pageFormElements = getAllFormElements(formEl);
-            pageFormElements.forEach((element, idx) => {
-                if (element.value === "" || element.value === undefined) {
-                    element.value = p2.substring(idx + 1, idx + 2);
-                    formEl[idx+1].focus();
-                    isFound = true
-                };
-                if (isFound) {
-                    throw new Error('Loop stopped');
-                }
-            });
+            if (numberHelp2 >= 1) {
+                setNumberHelp2(prev => prev - 1);
+                pageFormElements.forEach((element, idx) => {
+                    if (element.value === "" || element.value === undefined) {
+                        element.value = p2.substring(idx + 1, idx + 2);
+                        formEl[idx + 1].focus();
+                        isFound = true
+                    };
+                    if (isFound) {
+                        throw new Error('Loop stopped');
+                    }
+                });
+            }
         } catch (error) {
             console.log('Loop was stopped due to an exception.');
         }
@@ -68,8 +83,11 @@ function LineCard({ p1, p2, p3 }) {
 
     const nextWord = () => {
         if (index < Number(process.env.REACT_APP_MIN_LINES_PER_GAMES)) {
-            setIndex((index) => index + 1)
-            setTimeLeft(30)
+            if (numberHelp1 >= 1) {
+                setNumberHelp1(prev => prev - 1)
+                setIndex((index) => index + 1)
+                setTimeLeft(30)
+            }
         } else {
             navigate("/result");
         }
@@ -95,8 +113,8 @@ function LineCard({ p1, p2, p3 }) {
             let formEl = document.forms.Word;
             const pageFormElements = getAllFormElements(formEl);
             pageFormElements.forEach((element) => {
-                    element.value = "";
-                    formEl[0].focus();
+                element.value = "";
+                formEl[0].focus();
             });
         }
     }
@@ -129,13 +147,17 @@ function LineCard({ p1, p2, p3 }) {
                 </button>
             </div>
             <div className="helpers">
-                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                <button className={numberHelp1 > 0 ? "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                    : "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded opacity-50 cursor-not-allowed"}
                     onClick={nextWord}>
                     <FontAwesomeIcon icon={faArrowRight} className="text-white-500 m-1" />
+                    <span className="text-white-500 text-xs" style={styleNotification}>{numberHelp1}</span>
                 </button>
-                <button className="bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                <button className={numberHelp2 > 0 ? "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
+                    : "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded opacity-50 cursor-not-allowed"}
                     onClick={addLetter}>
                     <FontAwesomeIcon icon={faPlus} className="text-white-500 m-1" />
+                    <span className="text-white-500 text-xs" style={styleNotification}>{numberHelp2}</span>
                 </button>
             </div>
         </div>
