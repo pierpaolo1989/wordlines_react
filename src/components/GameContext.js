@@ -10,9 +10,12 @@ function GameContext({ children }) {
     const [showAnimation, setShowAnimation] = useState(false);
     const [mute, setMute] = useState(false);
     const [up, setUp] = useState(3) 
+    const [numberHelp1, setNumberHelp1] = useState(Number(process.env.REACT_APP_HELP_1)) 
+    const [numberHelp2, setNumberHelp2] = useState(Number(process.env.REACT_APP_HELP_2)) 
 
     return (
-        <Context.Provider value={{score, setScore, index, setIndex, up, setUp, timeLeft, setTimeLeft, showAnimation, setShowAnimation, mute, setMute}}>
+        <Context.Provider value={{score, setScore, index, setIndex, up, setUp, timeLeft, setTimeLeft, showAnimation, setShowAnimation, 
+        mute, setMute, numberHelp1, setNumberHelp1, numberHelp2, setNumberHelp2}}>
             {children}
         </Context.Provider>
     )

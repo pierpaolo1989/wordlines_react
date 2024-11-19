@@ -6,7 +6,7 @@ import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
 import { supabase } from "../utils/SupabaseClient";
-import audio from '../pages/audio.mp3'
+import audio from '../audio.mp3'
 
 
 const override: CSSProperties = {

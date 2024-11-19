@@ -19,11 +19,11 @@ function MainPageNavbar() {
   }
 
   const login = () => {
-    navigate("/login");
+    navigate("login");
   }
 
   const support = () => {
-    navigate("/support");
+    navigate("support");
   }
 
 
@@ -32,7 +32,7 @@ function MainPageNavbar() {
   }
 
   const profile = () => {
-    navigate("/profile");
+    navigate("profile");
   }
 
   const logout = async () => {

@@ -6,10 +6,10 @@ import ScoreAnimation from "./animations/ScoreAnimation";
 import '../components/animations/LifeAnimation.css'
 
 function GameNavbar() {
-    
-    const {score} = useContext(Context)
-    const {up} = useContext(Context)
-    const {showAnimation} = useContext(Context)
+
+    const { score } = useContext(Context)
+    const { up } = useContext(Context)
+    const { showAnimation } = useContext(Context)
 
     const for_loop = []
     for (let i = 0; i < up; i++) {
@@ -17,25 +17,37 @@ function GameNavbar() {
             <FontAwesomeIcon icon={faHeart} className="text-red-500 m-1" key={i} />
         );
     };
-    
+
     const style = {
         "backgroundColor": "#282c34",
     }
 
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6 h-2" style={style}>
-                <div className="flex items-center flex-shrink-0 text-white mr-6">
-                    <span className="font-semibold text-xl tracking-tight">  <ScoreAnimation score={score} /></span>
-                </div>
-                <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-                    <div className="text-sm lg:flex-grow">
+
+        <nav style={style}>
+            <div className="mx-auto px-2 sm:px-6 lg:px-8">
+                <div className="relative flex h-16 items-center justify-between">
+                    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                        <div className="flex flex-shrink-0 items-center">
+                            <span className="font-semibold text-xl text-white tracking-tight">  <ScoreAnimation score={score} /></span>
+                        </div>
                     </div>
-                    <div>
-                        {for_loop}
-                        {showAnimation && <div className="life-animation">{"-1 Life" }</div>}
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                        <div className="flex space-x-4">
+                            <div>
+                                <div className="relative inline-block text-left">
+                                    <div>
+                                        {for_loop}
+                                        {showAnimation && <div className="life-animation">{"-1 Life"}</div>}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
+            </div>
+        </nav>
     )
 }
 
