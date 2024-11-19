@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
+import BadgeButton from "./ButtonWithBadge.js";
 
 function LineCard({ p1, p2, p3 }) {
     var firstLetter = p2.substring(0, 1);
@@ -55,6 +56,11 @@ function LineCard({ p1, p2, p3 }) {
             } else {
                 navigate("/result");
             }
+        } else {
+            pageFormElements.forEach((element) => {
+                element.value = "";
+                formEl[0].focus();
+            });
         }
     }
 
@@ -121,7 +127,7 @@ function LineCard({ p1, p2, p3 }) {
 
     return (
         <div className="text-center">
-            <p className="text-5xl">{p1.toUpperCase()}</p>
+            <p className="text-5xl xs:text-base">{p1.toUpperCase()}</p>
             <div className="second_word mt-5">
                 <form id="Word">
                     <span className="mr-2">{firstLetter.toUpperCase()}</span>
@@ -139,26 +145,16 @@ function LineCard({ p1, p2, p3 }) {
                     <span className="ml-2">{lastLetter.toUpperCase()}</span>
                 </form>
             </div>
-            <p className="text-5xl mt-5">{p3.toUpperCase()}</p>
+            <p className="text-5xl xs:text-base mt-5">{p3.toUpperCase()}</p>
             <div className="pulsantiera">
                 <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border"
                     onClick={checkWord}>
                     Check
                 </button>
             </div>
-            <div className="helpers">
-                <button className={numberHelp1 > 0 ? "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
-                    : "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded opacity-50 cursor-not-allowed"}
-                    onClick={nextWord}>
-                    <FontAwesomeIcon icon={faArrowRight} className="text-white-500 m-1" />
-                    <span className="text-white-500 text-xs" style={styleNotification}>{numberHelp1}</span>
-                </button>
-                <button className={numberHelp2 > 0 ? "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded"
-                    : "bg-transparent m-5 hover:bg-blue-700 text-white py-1 px-2 rounded opacity-50 cursor-not-allowed"}
-                    onClick={addLetter}>
-                    <FontAwesomeIcon icon={faPlus} className="text-white-500 m-1" />
-                    <span className="text-white-500 text-xs" style={styleNotification}>{numberHelp2}</span>
-                </button>
+            <div className="helpers mt-2">
+                <BadgeButton initialCount= {numberHelp1} icon={faArrowRight} action={nextWord} />
+                <BadgeButton initialCount= {numberHelp2} icon={faPlus} action={addLetter} />
             </div>
         </div>
     )
