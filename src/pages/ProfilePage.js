@@ -15,7 +15,7 @@ function Profile({ session }) {
   }
 
   useEffect(() => {
-    let ignore = false
+    let ignore = false;
     async function getProfile() {
       setLoading(true)
       const { user } = session
@@ -108,7 +108,7 @@ function Profile({ session }) {
                 disabled
               />
 
-              <label htmlFor="website" className="mt-6 text-gray-200">
+              <label htmlFor="website" className="mt-4 text-gray-200">
                 Password
               </label>
               <input
@@ -119,7 +119,7 @@ function Profile({ session }) {
                 value={website || ''}
                 onChange={(e) => setWebsite(e.target.value)}
               />
-              <label htmlFor="username" className="mt-6 text-gray-200">
+              <label htmlFor="username" className="mt-4 text-gray-200">
                 Username
               </label>
               <input
@@ -132,13 +132,10 @@ function Profile({ session }) {
               />
 
               <button
-                className="mt-10 text-lg text-white font-semibold bg-blue-500 py-2 px-4 rounded-md focus:outline-none focus:ring-2"
+                className="mt-5 text-lg text-white font-semibold bg-blue-500 py-2 px-4 rounded-md focus:outline-none focus:ring-2"
                 type="submit"
               >
                 {loading ? 'Loading ...' : 'Update'}
-              </button>
-              <button className="mt-5 text-lg text-white font-semibold bg-blue-500 py-2 px-4 rounded-md focus:outline-none focus:ring-2" type="button" onClick={logout}>
-                Sign Out
               </button>
             </form>
           </div>
