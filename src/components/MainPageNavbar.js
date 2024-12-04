@@ -66,7 +66,7 @@ function MainPageNavbar() {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              {currentPath !== "/" ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
+              {currentPath !== "/" && currentPath !='/wordlines_react' ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
                 <FontAwesomeIcon icon={faHome} className="text-white-500 m-1" /> 
               </span>: <></>}
             </div>

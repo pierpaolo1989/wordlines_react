@@ -93,7 +93,7 @@ function Register() {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            <div class="error text-red-600 font-semibold mt-2">
+            <div className="error text-red-600 font-semibold mt-2">
               {error}
             </div>
 

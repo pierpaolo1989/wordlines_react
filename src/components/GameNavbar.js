@@ -9,9 +9,13 @@ import { useNavigate } from "react-router-dom";
 
 function GameNavbar() {
 
-    const { score } = useContext(Context)
+    const { score, setScore } = useContext(Context)
     const { up } = useContext(Context)
     const { showAnimation } = useContext(Context)
+    const { setIndex } = useContext(Context)
+    const { setUp } = useContext(Context)
+    const { setNumberHelp1 } = useContext(Context)
+    const { setNumberHelp2 } = useContext(Context)
     const navigate = useNavigate()
 
     const for_loop = []
@@ -26,7 +30,16 @@ function GameNavbar() {
     }
 
     const goToHome = () => {
+        resetGame();
         navigate("/");
+    }
+
+    const resetGame = () => {
+        setIndex(0)
+        setScore(0)
+        setUp(3)
+        setNumberHelp1(Number(process.env.REACT_APP_HELP_1))
+        setNumberHelp2(Number(process.env.REACT_APP_HELP_2))
     }
 
     return (
