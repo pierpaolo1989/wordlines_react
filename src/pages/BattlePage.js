@@ -22,15 +22,15 @@ function BattlePage() {
   const startGame = async () => {
     getProfile().then(() => {
       const { data: session, error } = supabase
-      .from('game_sessions')
-      .insert([{ player1: player, current_turn: player }])
-      .select()
-      .single();
+        .from('game_sessions')
+        .insert([{ player1: player, current_turn: player }])
+        .select()
+        .single();
 
-    if (!error) {
-      setGameSession(session);
-      getLines();
-    }
+      if (!error) {
+        setGameSession(session);
+        getLines();
+      }
     });
   };
 
@@ -43,7 +43,7 @@ function BattlePage() {
       .not('player2', 'is', null)
       .single();
 
-      debugger;
+    debugger;
     if (!error) {
       const updatedSession = await supabase
         .from('game_sessions')
@@ -74,13 +74,13 @@ function BattlePage() {
 
   async function getLines() {
     if (process.env.REACT_APP_MOCKED === "true") {
-        setLines(mockedData)
+      setLines(mockedData)
     } else {
-        let language = localStorage.getItem("language")
-        const { data } = await supabase.rpc(language === "IT" ? "get_random_lines" : "get_random_lines_eng");
-        setLines(data);
+      let language = localStorage.getItem("language")
+      const { data } = await supabase.rpc(language === "IT" ? "get_random_lines" : "get_random_lines_eng");
+      setLines(data);
     }
-}
+  }
 
   // Gestisce la risposta
   const handleAnswer = async (isTrue) => {
@@ -139,8 +139,8 @@ function BattlePage() {
         </div>
       )}
 
-        {/* Fine Partita */}
-        {errorMessage && (
+      {/* Fine Partita */}
+      {errorMessage && (
         <div>
           <h2 class="text-red-500 mt-20">{errorMessage}</h2>
         </div>
@@ -149,10 +149,10 @@ function BattlePage() {
       {/* Domande */}
       {lines.length > 0 && player && (
         <div>
-           <Timer />
-           <br />
-               <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
-               </div>
+          <Timer />
+          <br />
+          <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
+        </div>
       )}
 
       {/* Fine Partita */}
