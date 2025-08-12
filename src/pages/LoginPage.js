@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { supabase } from "../utils/SupabaseClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Login() {
 
@@ -43,6 +45,11 @@ function Login() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-800">
+       <Link
+              to="/"
+              className="absolute top-4 left-4 bg-gray-700 hover:bg-gray-600 p-3 rounded-full text-white shadow-lg transition-colors duration-200">
+              <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+            </Link>
       <div className="max-w-lg w-full">
         <h1 className="text-3xl font-semibold text-center text-white">
           Sign in to your account
@@ -83,7 +90,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <div class="error text-red-500 ont-semibold mt-2">
+            <div className="error text-red-500 ont-semibold mt-2">
               {error}
             </div>
 

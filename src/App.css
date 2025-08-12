@@ -6,6 +6,10 @@
   cursor: pointer;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .bg-primary-color {
   background-color: "#282c34",
 }

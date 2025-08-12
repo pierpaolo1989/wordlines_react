@@ -9,6 +9,8 @@ import NoPage from './pages/NoPage';
 import Register from './pages/RegisterPage';
 import Result from './pages/ResultPage';
 import Support from './pages/SupportPage';
+import BattlePage from './pages/BattlePage';
+import Privacy from './pages/PrivacyPage';
 
 function App() {
 
@@ -21,10 +23,12 @@ function App() {
       <Route path="/wordlines_react" element={<MainPage />} />
         <Route path="/lines/:language"element={<Lines />} />
         <Route path="/result" element={<Result />} />
+        <Route path="/battle" element={<BattlePage />} />
         <Route path="/profile" element={<Account />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Register />} />
         <Route path="/support" element={<Support />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/*" element={<NoPage />} />
     </Routes>
   </BrowserRouter>

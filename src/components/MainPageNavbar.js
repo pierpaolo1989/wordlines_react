@@ -1,5 +1,6 @@
 import { faSignIn, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../components/animations/LifeAnimation.css';
@@ -7,13 +8,14 @@ import { supabase } from "../utils/SupabaseClient";
 import { Context } from "./GameContext";
 
 function MainPageNavbar() {
-  
+
   const navigate = useNavigate()
-  const style = { "backgroundColor": "#282c34"}
-  const [user, setUser] = useState(null)
-  const [open, setOpen] = useState(false)
-  const { mute,setMute } = useContext(Context)
-  
+  const style = { "backgroundColor": "#282c34" }
+  const [ user, setUser ] = useState(null)
+  const [ currentPath, setCurrentPath ] = useState(null)
+  const [ open, setOpen ] = useState(false)
+  const { mute, setMute } = useContext(Context)
+
   const toggleSound = () => {
     setMute(oldValue => !oldValue);
   }
@@ -49,8 +51,14 @@ function MainPageNavbar() {
   };
 
   useEffect(() => {
+    let pathname = window.location.pathname;
+    setCurrentPath(pathname);
     getProfile();
   }, []);
+
+  const goToHome = () => {
+    navigate("/");
+}
 
   return (
     <nav style={style}>
@@ -58,13 +66,16 @@ function MainPageNavbar() {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
+              {currentPath !== "/" && currentPath !='/wordlines_react' ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
+                <FontAwesomeIcon icon={faHome} className="text-white-500 m-1" /> 
+              </span>: <></>}
             </div>
             <div className="hidden sm:ml-6 sm:block">
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="flex space-x-4">
-              <a onClick={login} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={user ? { "cursor": "pointer", "display": "none" } : {"cursor": "pointer"}}>
+              <a onClick={login} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={user ? { "cursor": "pointer", "display": "none" } : { "cursor": "pointer" }}>
                 <FontAwesomeIcon icon={faSignIn} className="text-white" />
               </a>
               <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
@@ -81,8 +92,8 @@ function MainPageNavbar() {
                         </svg>
                       </button>
                     </div>
-                    <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" 
-                    aria-labelledby="menu-button" tabIndex="-1" style={{'display': open ? 'block' : 'none'}}>
+                    <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical"
+                      aria-labelledby="menu-button" tabIndex="-1" style={{ 'display': open ? 'block' : 'none' }}>
                       <div className="py-1" role="none">
                         <a href="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={profile}>Profile</a>
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={support}>Support</a>
