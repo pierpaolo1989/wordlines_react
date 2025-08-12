@@ -26,12 +26,12 @@ function Lines() {
     const [isPlaying, setIsPlaying] = useState(true);
 
     const toggleSound = () => {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
-      setIsPlaying(!isPlaying);
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
     };
 
     useEffect(() => {
@@ -45,24 +45,46 @@ function Lines() {
 
     async function getLines() {
         if (process.env.REACT_APP_MOCKED === "true") {
-            setLines(mockedData)
-        } else {
-            let language = localStorage.getItem("language")
-            const { data } = await supabase.rpc(language === "IT" ? "get_random_lines" : "get_random_lines_eng");
-            setLines(data);
+            setLines(mockedData);
+            return;
+        }
+
+        let language = localStorage.getItem("language");
+        const queryName = language === "IT" ? "get_random_lines" : "get_random_lines_eng";
+
+        // Funzione per la chiamata a Supabase
+        const supabaseCall = supabase.rpc(queryName);
+
+        // Funzione timeout
+        const timeout = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout Supabase")), 5000)
+        );
+
+        try {
+            const { data, error } = await Promise.race([supabaseCall, timeout]);
+
+            if (error || !data) {
+                console.error("Errore Supabase:", error);
+                setLines(mockedData);
+            } else {
+                setLines(data);
+            }
+        } catch (err) {
+            console.error("Errore/Timeout:", err);
+            setLines(mockedData);
         }
     }
 
     return (
         <div>
-            
+
             <GameNavbar />
-            
+
             <div className="App-header mt-minus-20">
 
                 <Timer />
                 <br />
-                { !mute ? <audio ref={audioRef} src={audio} loop /> : <></> }
+                {!mute ? <audio ref={audioRef} src={audio} loop /> : <></>}
                 {lines ?
                     <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
 

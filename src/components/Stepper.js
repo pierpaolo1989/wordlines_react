@@ -11,51 +11,51 @@ function WrapperStepper({ session }) {
     const [avatar_url, setAvatarUrl] = useState(null)
     const [activeStep, setActiveStep] = useState(1);
     const [captchaVerified, setCaptchaVerified] = useState(false);
-  const [walletType, setWalletType] = useState("eth");
-  const [address, setAddress] = useState("");
-  const [coins, setCoins] = useState(0);
-  const [conversionRate] = useState(0.05);
+    const [walletType, setWalletType] = useState("eth");
+    const [address, setAddress] = useState("");
+    const [coins, setCoins] = useState(0);
+    const [conversionRate] = useState(0.05);
 
-  const handleCaptchaChange = (value) => {
-    setCaptchaVerified(!!value);
-  };
+    const handleCaptchaChange = (value) => {
+        setCaptchaVerified(!!value);
+    };
 
 
-  const handleTransaction = async () => {
-    if (!window.ethereum) {
-      alert("MetaMask non è installato. Per favore installalo per continuare.");
-      return;
-    }
+    const handleTransaction = async () => {
+        if (!window.ethereum) {
+            alert("MetaMask non è installato. Per favore installalo per continuare.");
+            return;
+        }
 
-    if (!address) {
-      alert("Inserisci un indirizzo valido.");
-      return;
-    }
+        if (!address) {
+            alert("Inserisci un indirizzo valido.");
+            return;
+        }
 
-    try {
-      const tokenAmount = coins * conversionRate;
-      const transactionParams = {
-        to: address,
-        value: walletType === "eth"
-          ? (tokenAmount * 1e18).toString(16) // ETH value in Wei
-          : undefined,
-      };
+        try {
+            const tokenAmount = coins * conversionRate;
+            const transactionParams = {
+                to: address,
+                value: walletType === "eth"
+                    ? (tokenAmount * 1e18).toString(16) // ETH value in Wei
+                    : undefined,
+            };
 
-      if (walletType === "btc") {
-        alert("Le transazioni BTC non possono essere inviate direttamente con MetaMask.");
-        return;
-      }
+            if (walletType === "btc") {
+                alert("Le transazioni BTC non possono essere inviate direttamente con MetaMask.");
+                return;
+            }
 
-      await window.ethereum.request({
-        method: "eth_sendTransaction",
-        params: [transactionParams],
-      });
+            await window.ethereum.request({
+                method: "eth_sendTransaction",
+                params: [transactionParams],
+            });
 
-      alert("Transazione inviata con successo!");
-    } catch (error) {
-      alert(`Errore durante la transazione: ${error.message}`);
-    }
-  };
+            alert("Transazione inviata con successo!");
+        } catch (error) {
+            alert(`Errore durante la transazione: ${error.message}`);
+        }
+    };
 
     useEffect(() => {
         let ignore = false;
@@ -189,62 +189,62 @@ function WrapperStepper({ session }) {
                 )}
 
                 {activeStep === 2 && (
-                     <form>
-                     <div className="mb-4">
-                       <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="wallet-type">
-                         Tipo di Wallet
-                       </label>
-                       <select
-                         id="wallet-type"
-                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                         value={walletType}
-                         onChange={(e) => setWalletType(e.target.value)}
-                       >
-                         <option value="eth">Ethereum</option>
-                         <option value="btc">Bitcoin</option>
-                       </select>
-                     </div>
-         
-                     <div className="mb-4">
-                       <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="address">
-                         Indirizzo Wallet
-                       </label>
-                       <input
-                         type="text"
-                         id="address"
-                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                         placeholder="Inserisci l'indirizzo wallet"
-                         value={address}
-                         onChange={(e) => setAddress(e.target.value)}
-                       />
-                     </div>
-         
-                     <div className="mb-4">
-                       <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="coins">
-                         Coins da convertire
-                       </label>
-                       <input
-                         type="number"
-                         id="coins"
-                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                         placeholder="Inserisci il numero di coins"
-                         value={coins}
-                         onChange={(e) => setCoins(Number(e.target.value))}
-                       />
-                     </div>
-                     <ReCAPTCHA
-                     className='mb-4'
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-              onChange={handleCaptchaChange}
-            />
-                     <button
-                       type="button"
-                       className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
-                       onClick={handleTransaction}
-                     >
-                       Invia Coins
-                     </button>
-                   </form>
+                    <form>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="wallet-type">
+                                Tipo di Wallet
+                            </label>
+                            <select
+                                id="wallet-type"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                value={walletType}
+                                onChange={(e) => setWalletType(e.target.value)}
+                            >
+                                <option value="eth">Ethereum</option>
+                                <option value="btc">Bitcoin</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="address">
+                                Indirizzo Wallet
+                            </label>
+                            <input
+                                type="text"
+                                id="address"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="Inserisci l'indirizzo wallet"
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="coins">
+                                Coins da convertire
+                            </label>
+                            <input
+                                type="number"
+                                id="coins"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                placeholder="Inserisci il numero di coins"
+                                value={coins}
+                                onChange={(e) => setCoins(Number(e.target.value))}
+                            />
+                        </div>
+                        <ReCAPTCHA
+                            className='mb-4'
+                            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                            onChange={handleCaptchaChange}
+                        />
+                        <button
+                            type="button"
+                            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 font-semibold"
+                            onClick={handleTransaction}
+                        >
+                            Invia Coins
+                        </button>
+                    </form>
                 )}
             </div>
         </>
