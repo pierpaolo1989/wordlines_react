@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "p1": "CRAFT",
+        "p2": "TABLE",
+        "p3": "MANNERS"
+    },
+    {
+        "id": 2,
+        "p1": "AMERICAN",
+        "p2": "CHEESE",
+        "p3": "PIZZA"
+    },
+    {
+        "id": 3,
+        "p1": "ICE",
+        "p2": "WATER",
+        "p3": "GARDEN"
+    },
+    {
+        "id": 4,
+        "p1": "DISTANCE",
+        "p2": "RUNNING",
+        "p3": "WILD"
+    },
+    {
+        "id": 5,
+        "p1": "FIRE",
+        "p2": "TRUCK",
+        "p3": "DRIVER"
+    },
+    {
+        "id": 6,
+        "p1": "WATER",
+        "p2": "FALL",
+        "p3": "SEASON"
+    },
+    {
+        "id": 7,
+        "p1": "SAND",
+        "p2": "CASTLE",
+        "p3": "ROCK"
+    },
+    {
+        "id": 8,
+        "p1": "HOUSE",
+        "p2": "KEY",
+        "p3": "CHAIN"
+    },
+    {
+        "id": 9,
+        "p1": "SUN",
+        "p2": "GLASSES",
+        "p3": "CASE"
+    },
+    {
+        "id": 10,
+        "p1": "TREE",
+        "p2": "HOUSE",
+        "p3": "PARTY"
+    }
+]

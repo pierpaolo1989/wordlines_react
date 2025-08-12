@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { supabase } from "../utils/SupabaseClient";
-import mockedData from '../mock.json';
+import mockedData from '../mock_it.json';
 import Timer from '../components/Timer';
 import { Context } from '../components/GameContext';
 import LineCard from '../components/LineCard';
