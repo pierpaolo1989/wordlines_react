@@ -1,6 +1,7 @@
 import { CSSProperties, useContext, useEffect, useState, useRef } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import mockedData from '../mock.json';
+import mockedDataIt from '../mock_it.json';
+import mockedDataEng from '../mock_eng.json';
 import { Context } from "./GameContext";
 import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
@@ -44,12 +45,15 @@ function Lines() {
     }, []);
 
     async function getLines() {
+        
+        let language = localStorage.getItem("language");
+        var mockedData = language === "IT" ? mockedDataIt : mockedDataEng
+        
         if (process.env.REACT_APP_MOCKED === "true") {
             setLines(mockedData);
             return;
         }
 
-        let language = localStorage.getItem("language");
         const queryName = language === "IT" ? "get_random_lines" : "get_random_lines_eng";
 
         // Funzione per la chiamata a Supabase
