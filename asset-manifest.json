@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/wordlines_react/static/css/main.32169f77.css",
-    "main.js": "/wordlines_react/static/js/main.44f77628.js",
+    "main.js": "/wordlines_react/static/js/main.bd134ec5.js",
     "static/js/952.ae90388e.chunk.js": "/wordlines_react/static/js/952.ae90388e.chunk.js",
     "static/js/453.0bdb9e52.chunk.js": "/wordlines_react/static/js/453.0bdb9e52.chunk.js",
     "static/media/audio.mp3": "/wordlines_react/static/media/audio.d88493f1ff8f876fde70.mp3",
     "index.html": "/wordlines_react/index.html",
     "main.32169f77.css.map": "/wordlines_react/static/css/main.32169f77.css.map",
-    "main.44f77628.js.map": "/wordlines_react/static/js/main.44f77628.js.map",
+    "main.bd134ec5.js.map": "/wordlines_react/static/js/main.bd134ec5.js.map",
     "952.ae90388e.chunk.js.map": "/wordlines_react/static/js/952.ae90388e.chunk.js.map",
     "453.0bdb9e52.chunk.js.map": "/wordlines_react/static/js/453.0bdb9e52.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.32169f77.css",
-    "static/js/main.44f77628.js"
+    "static/js/main.bd134ec5.js"
   ]
 }
