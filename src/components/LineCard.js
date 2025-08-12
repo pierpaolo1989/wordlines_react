@@ -1,4 +1,5 @@
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
@@ -10,7 +11,6 @@ function LineCard({ p1, p2, p3 }) {
     const { setTimeLeft } = useContext(Context)
     const { numberHelp1, setNumberHelp1 } = useContext(Context)
     const { numberHelp2, setNumberHelp2 } = useContext(Context)
-    const [indexesAddedLetters, setIndexesAddedLetters] = useState([])
 
 
     const p2Array = [];
@@ -27,6 +27,15 @@ function LineCard({ p1, p2, p3 }) {
     const style = {
         "textTransform": "uppercase",
         "textAlign": "center"
+    }
+
+    const styleNotification = {
+        "position": "relative",
+        "top": "-30px",
+        "right": "-20px",
+        "padding": "4px 5px",
+        "border-radius": "50%",
+        "background": "red",
     }
 
     const getAllFormElements = element => Array.from(element.elements).filter(tag => ["input"].includes(tag.tagName.toLowerCase()));
@@ -48,16 +57,10 @@ function LineCard({ p1, p2, p3 }) {
                 navigate("/result");
             }
         } else {
-            pageFormElements.forEach((element, idx) => {
-                if (!indexesAddedLetters.includes(idx)) {
-                    element.value = "";
-                }
-            });
-            if (indexesAddedLetters.length === 0) {
+            pageFormElements.forEach((element) => {
+                element.value = "";
                 formEl[0].focus();
-            } else {
-                formEl[indexesAddedLetters[indexesAddedLetters.length - 1] + 1].focus();
-            }
+            });
         }
     }
 
@@ -72,8 +75,7 @@ function LineCard({ p1, p2, p3 }) {
                     if (element.value === "" || element.value === undefined) {
                         element.value = p2.substring(idx + 1, idx + 2);
                         formEl[idx + 1].focus();
-                        isFound = true;
-                        setIndexesAddedLetters(oldArray => [...oldArray, idx]);
+                        isFound = true
                     };
                     if (isFound) {
                         throw new Error('Loop stopped');
@@ -114,18 +116,12 @@ function LineCard({ p1, p2, p3 }) {
         if (event.keyCode === 13) {
             checkWord();
         } else if (event.keyCode === 8) {
-            let form = document.forms.Word;
-            const pageFormElements = getAllFormElements(form);
-            pageFormElements.forEach((element, idx) => {
-                if (!indexesAddedLetters.includes(idx)) {
-                    element.value = "";
-                }
+            let formEl = document.forms.Word;
+            const pageFormElements = getAllFormElements(formEl);
+            pageFormElements.forEach((element) => {
+                element.value = "";
+                formEl[0].focus();
             });
-            if (indexesAddedLetters.length === 0) {
-                form[0].focus();
-            } else {
-                form[indexesAddedLetters[indexesAddedLetters.length - 1] + 1].focus();
-            }
         }
     }
 
@@ -157,8 +153,8 @@ function LineCard({ p1, p2, p3 }) {
                 </button>
             </div>
             <div className="helpers mt-2">
-                <BadgeButton initialCount={numberHelp1} icon={faArrowRight} action={nextWord} isLeft={true} />
-                <BadgeButton initialCount={numberHelp2} icon={faPlus} action={addLetter} isLeft={false} />
+                <BadgeButton initialCount= {numberHelp1} icon={faArrowRight} action={nextWord} />
+                <BadgeButton initialCount= {numberHelp2} icon={faPlus} action={addLetter} />
             </div>
         </div>
     )
