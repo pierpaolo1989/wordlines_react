@@ -17,22 +17,21 @@ function App() {
   localStorage.setItem("language", "IT")
   return (
     <GameContext>
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/wordlines_react" element={<MainPage />} />
-        <Route path="/lines/:language"element={<Lines />} />
-        <Route path="/result" element={<Result />} />
-        <Route path="/battle" element={<BattlePage />} />
-        <Route path="/profile" element={<Account />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Register />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/*" element={<NoPage />} />
-    </Routes>
-  </BrowserRouter>
-  </GameContext>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/lines/:language" element={<Lines />} />
+          <Route path="/result" element={<Result />} />
+          <Route path="/battle" element={<BattlePage />} />
+          <Route path="/profile" element={<Account />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Register />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/*" element={<NoPage />} />
+        </Routes>
+      </BrowserRouter>
+    </GameContext>
   );
 }
 

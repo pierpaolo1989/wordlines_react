@@ -42,7 +42,7 @@ const Timer = () => {
 
   return (
     <div>
-      <h1 className={timeLeft <= 5 ? 'text-red-500' : 'text-neutral-50'}>{timeLeft}</h1>
+      <h1 className={timeLeft <= 5 ? 'text-red-500 text-center' : 'text-neutral-50 text-center'}>{timeLeft}</h1>
     </div>
   );
 };

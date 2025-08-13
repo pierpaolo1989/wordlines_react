@@ -4,6 +4,10 @@ import mockedData from '../mock_it.json';
 import Timer from '../components/Timer';
 import { Context } from '../components/GameContext';
 import LineCard from '../components/LineCard';
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import MainPageNavbar from '../components/MainPageNavbar';
 
 
 function BattlePage() {
@@ -17,9 +21,25 @@ function BattlePage() {
   const [questions, setQuestions] = useState([]);
   const [errorMessage, setErrorMessage] = useState();
   const { index } = useContext(Context)
+  const navigate = useNavigate();
+  const [gameStarted, setGameStarted] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        // Se non loggato → redirect a /login
+        navigate("/login");
+      } else {
+        setPlayer(session.user.email);
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   // Inizia una nuova sessione di gioco
   const startGame = async () => {
+    setErrorMessage('');
     getProfile().then(() => {
       const { data: session, error } = supabase
         .from('game_sessions')
@@ -30,6 +50,7 @@ function BattlePage() {
       if (!error) {
         setGameSession(session);
         getLines();
+        setGameStarted(true);
       }
     });
   };
@@ -43,7 +64,6 @@ function BattlePage() {
       .not('player2', 'is', null)
       .single();
 
-    debugger;
     if (!error) {
       const updatedSession = await supabase
         .from('game_sessions')
@@ -54,6 +74,7 @@ function BattlePage() {
 
       setGameSession(updatedSession.data);
       getLines();
+      setGameStarted(true);
     } else {
       manageJoinError(error);
     }
@@ -126,42 +147,48 @@ function BattlePage() {
   }, [gameSession]);
 
   return (
-    <div className="App-header">
-      {/* Inizio Partita */}
-      {!gameSession && (
-        <div>
-          <button onClick={startGame} className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 p-2 mr-2">
-            Start
-          </button>
-          <button onClick={joinGame} className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 pl-5">
-            Join
-          </button>
-        </div>
-      )}
+    <>
+      <div className="App-header">
+        {/* Inizio Partita */}
+        {!gameSession && !gameStarted && (
+          <div className="flex flex-col items-center gap-4 mt-4">
+            <button
+              onClick={startGame}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border w-64">
+              Start
+            </button>
+            <button
+              onClick={joinGame}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded border w-64">
+              Join
+            </button>
+          </div>
+        )}
 
-      {/* Fine Partita */}
-      {errorMessage && (
-        <div>
-          <h2 class="text-red-500 mt-20">{errorMessage}</h2>
-        </div>
-      )}
+        {/* Fine Partita */}
+        {errorMessage && (
+          <div>
+            <h2 class="text-red-500 mt-20">{errorMessage}</h2>
+          </div>
+        )}
 
-      {/* Domande */}
-      {lines.length > 0 && player && (
-        <div>
-          <Timer />
-          <br />
-          <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
-        </div>
-      )}
+        {/* Domande */}
+        {lines.length > 0 && player && (
+          <div>
+            <Timer />
+            <br />
+            <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
+          </div>
+        )}
 
-      {/* Fine Partita */}
-      {winner && (
-        <div>
-          <h2>Il vincitore è: {winner}</h2>
-        </div>
-      )}
-    </div>
+        {/* Fine Partita */}
+        {winner && (
+          <div>
+            <h2>Il vincitore è: {winner}</h2>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
