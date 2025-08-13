@@ -115,7 +115,6 @@ function WrapperStepper({ session }) {
 
     return (
         <>
-
             <div className="flex justify-center space-x-4 mb-8">
                 <button
                     className={`px-4 py-2 rounded-lg text-white font-medium ${activeStep === 1 ? "bg-blue-600" : "bg-gray-400"
@@ -133,7 +132,7 @@ function WrapperStepper({ session }) {
                 </button>
             </div>
 
-            <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+            <div className="w-full max-w-lg bg-white shadow-md rounded-lg p-6">
                 {activeStep === 1 && (
                     <form className="flex flex-col" onSubmit={updateProfile}>
 

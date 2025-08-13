@@ -45,11 +45,11 @@ function Login() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-800">
-       <Link
-              to="/"
-              className="absolute top-4 left-4 bg-gray-700 hover:bg-gray-600 p-3 rounded-full text-white shadow-lg transition-colors duration-200">
-              <FontAwesomeIcon icon={faArrowLeft} size="lg" />
-            </Link>
+      <Link
+        to="/"
+        className="absolute top-4 left-4 bg-gray-700 hover:bg-gray-600 p-3 rounded-full text-white shadow-lg transition-colors duration-200">
+        <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+      </Link>
       <div className="max-w-lg w-full">
         <h1 className="text-3xl font-semibold text-center text-white">
           Sign in to your account
