@@ -1,9 +1,22 @@
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+
 function Privacy() {
     return (
         <div style={{ "backgroundColor": "#282c34", "width": "auto" }} className="p-10">
-            <h5 className="text-white text-2xl">
-                Privacy Policy di WordLines
-            </h5>
+            <div className="mb-4 flex items-center gap-4">
+                <Link
+                    to="/"
+                    aria-label="Torna alla home"
+                    className="flex-shrink-0 rounded-full bg-gray-700 p-3 text-white shadow-lg transition-colors duration-200 hover:bg-gray-600"
+                >
+                    <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+                </Link>
+                <h5 className="text-2xl text-white">
+                    Privacy Policy di WordLines
+                </h5>
+            </div>
             <p className="text-white">
                 Ultimo aggiornamento: 01/12/2024
             </p>
