@@ -1,15 +1,33 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "./GameContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faCoins, faHeart, faHome } from "@fortawesome/free-solid-svg-icons";
 import ScoreAnimation from "./animations/ScoreAnimation";
 import '../components/animations/LifeAnimation.css'
 
 function GameNavbar() {
 
-    const { score } = useContext(Context)
-    const { up } = useContext(Context)
-    const { showAnimation } = useContext(Context)
+    const {
+        score,
+        up,
+        showAnimation,
+        setTimeLeft,
+        setScore,
+        setIndex,
+        setUp,
+        setNumberHelp1,
+        setNumberHelp2,
+    } = useContext(Context)
+
+    const goToHome = () => {
+        setTimeLeft(30);
+        setScore(0);
+        setIndex(0);
+        setUp(3);
+        setNumberHelp1(Number(process.env.REACT_APP_HELP_1));
+        setNumberHelp2(Number(process.env.REACT_APP_HELP_2));
+    }
 
     const for_loop = []
     for (let i = 0; i < up; i++) {
@@ -28,8 +46,19 @@ function GameNavbar() {
             <div className="mx-auto px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                        <div className="flex flex-shrink-0 items-center">
-                            <span className="font-semibold text-xl text-white tracking-tight">  <ScoreAnimation score={score} /></span>
+                        <div className="flex flex-shrink-0 items-center gap-3">
+                            <Link
+                                to="/"
+                                onClick={goToHome}
+                                aria-label="Torna alla home"
+                                className="rounded-md bg-gray-700 p-2 text-white transition-colors hover:bg-gray-600"
+                            >
+                                <FontAwesomeIcon icon={faHome} />
+                            </Link>
+                            <span className="flex items-center gap-2 font-semibold text-xl text-white tracking-tight">
+                                <FontAwesomeIcon icon={faCoins} className="text-yellow-400" aria-hidden="true" />
+                                <ScoreAnimation score={score} />
+                            </span>
                         </div>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
