@@ -91,13 +91,13 @@ function Footer() {
                         </p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <a
-                                href="https://pierpaolo1989.github.io/wordlines_react"
+                                href="https://pierpaolodidato.it"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="flex items-center gap-2 rounded-md bg-gray-700 px-4 py-3 text-white transition-colors hover:bg-gray-600"
                             >
                                 <FontAwesomeIcon icon={faGlobe} />
-                                Sito WordLines
+                                Sito personale
                             </a>
                             <a
                                 href="https://www.linkedin.com/in/pierpaolo-di-dato/"
