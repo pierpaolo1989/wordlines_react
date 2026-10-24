@@ -1,4 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import { supabase } from "../utils/SupabaseClient";
 import mockedData from '../mock_it.json';
 import Timer from '../components/Timer';
@@ -126,14 +129,22 @@ function BattlePage() {
   }, [gameSession]);
 
   return (
-    <div className="App-header">
+    <div className="App-header relative">
+      <Link
+        to="/"
+        aria-label="Torna alla home"
+        className="absolute left-4 top-4 z-10 flex-shrink-0 rounded-full bg-gray-700 p-3 text-base text-white shadow-lg transition-colors duration-200 hover:bg-gray-600 sm:left-6 sm:top-6"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+      </Link>
+
       {/* Inizio Partita */}
       {!gameSession && (
-        <div>
-          <button onClick={startGame} className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 p-2 mr-2">
+        <div className="flex flex-col items-center">
+          <button onClick={startGame} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64">
             Start
           </button>
-          <button onClick={joinGame} className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 pl-5">
+          <button onClick={joinGame} className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64">
             Join
           </button>
         </div>

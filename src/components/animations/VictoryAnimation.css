@@ -1,25 +1,154 @@
-/* src/GameOver.css */
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
-}
-
-.gameover-container {
+.victory-screen {
   display: flex;
+  width: 100%;
   justify-content: center;
-  align-items: center;
+  padding: 1rem;
 }
 
-.gameover-text {
-  font-size: 5rem;
-  text-shadow: 2px 2px 5px black;
-  animation: fadeIn 1s ease-in-out;
+.victory-panel {
+  position: relative;
+  display: flex;
+  width: min(100%, 34rem);
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.75rem, 3vw, 1.25rem);
+  overflow: hidden;
+  border: 2px solid #4ade80;
+  border-radius: 0.75rem;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgb(15 23 42 / 0.2) 0,
+      rgb(15 23 42 / 0.2) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(145deg, #15352f, #171923 70%);
+  padding: clamp(1.25rem, 6vw, 2.5rem) clamp(1rem, 5vw, 2rem);
+  box-shadow:
+    0 0 0 4px rgb(74 222 128 / 0.12),
+    0 0 2rem rgb(34 197 94 / 0.35),
+    inset 0 0 1.5rem rgb(34 197 94 / 0.12);
+  text-align: center;
+  animation: victory-enter 650ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.victory-label,
+.victory-status {
+  color: #86efac;
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.65rem, 2.8vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.victory-label {
+  color: #cbd5e1;
+}
+
+.victory-title {
+  position: relative;
+  color: #4ade80;
+  font-family: "Courier New", monospace;
+  font-size: clamp(2rem, 10vw, 5rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-shadow:
+    3px 3px 0 #166534,
+    0 0 1rem rgb(74 222 128 / 0.7);
+  animation: victory-glitch 2.8s steps(1, end) 650ms infinite;
+}
+
+.victory-title::before,
+.victory-title::after {
+  position: absolute;
+  inset: 0;
+  content: attr(data-text);
+  pointer-events: none;
+}
+
+.victory-title::before {
+  color: #67e8f9;
+  clip-path: inset(50% 0 50% 0);
+  animation: victory-glitch-before 2.8s steps(1, end) 650ms infinite;
+}
+
+.victory-title::after {
+  color: #f0abfc;
+  clip-path: inset(50% 0 50% 0);
+  animation: victory-glitch-after 2.8s steps(1, end) 650ms infinite;
+}
+
+.victory-status {
+  animation: victory-status-blink 1.1s steps(2, start) 650ms infinite;
+}
+
+@keyframes victory-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes victory-glitch {
+  0%, 92%, 100% {
+    transform: translateX(0);
+  }
+  94% {
+    transform: translateX(-3px);
+  }
+  96% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes victory-glitch-before {
+  0%, 92%, 100% {
+    clip-path: inset(50% 0 50% 0);
+    transform: translate(0);
+  }
+  94% {
+    clip-path: inset(10% 0 55% 0);
+    transform: translate(-4px, -2px);
+  }
+  96% {
+    clip-path: inset(65% 0 8% 0);
+    transform: translate(4px, 2px);
+  }
+}
+
+@keyframes victory-glitch-after {
+  0%, 92%, 100% {
+    clip-path: inset(50% 0 50% 0);
+    transform: translate(0);
+  }
+  95% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(4px, 1px);
+  }
+  97% {
+    clip-path: inset(12% 0 65% 0);
+    transform: translate(-4px, -1px);
+  }
+}
+
+@keyframes victory-status-blink {
+  to {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .victory-panel,
+  .victory-title,
+  .victory-title::before,
+  .victory-title::after,
+  .victory-status {
+    animation: none;
+  }
 }

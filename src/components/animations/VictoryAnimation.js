@@ -4,14 +4,18 @@ import { useReward } from 'react-rewards';
 
 const VictoryAnimation = () => {
 
-  const {reward: confettiReward, isAnimating: isConfettiAnimating} = useReward('confettiReward', 'confetti');
+  const { reward: confettiReward } = useReward('confettiReward', 'confetti');
   useEffect(() => {
     confettiReward();
-  });
+  }, [confettiReward]);
 
     return (
-      <div className="gameover-container">
-        <div className="gameover-text text-green-500">Good job</div>
+      <div className="victory-screen" role="status" aria-live="polite">
+        <div className="victory-panel">
+          <span className="victory-label">PLAYER 1 · END OF GAME</span>
+          <div className="victory-title" data-text="GOOD JOB">GOOD JOB</div>
+          <span className="victory-status">LEVEL CLEARED</span>
+        </div>
       </div>
     );
 };
