@@ -8,25 +8,10 @@ import '../components/animations/LifeAnimation.css'
 
 function GameNavbar() {
 
-    const {
-        score,
-        up,
-        showAnimation,
-        setTimeLeft,
-        setScore,
-        setIndex,
-        setUp,
-        setNumberHelp1,
-        setNumberHelp2,
-    } = useContext(Context)
+    const { score, up, showAnimation, resetGame } = useContext(Context)
 
     const goToHome = () => {
-        setTimeLeft(30);
-        setScore(0);
-        setIndex(0);
-        setUp(3);
-        setNumberHelp1(Number(process.env.REACT_APP_HELP_1));
-        setNumberHelp2(Number(process.env.REACT_APP_HELP_2));
+        resetGame()
     }
 
     const for_loop = []

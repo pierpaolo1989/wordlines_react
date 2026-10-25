@@ -1,7 +1,6 @@
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
 import BadgeButton from "./ButtonWithBadge.js";
 
@@ -14,10 +13,9 @@ function LineCard({ p1, p2, p3 }) {
 
 
     const p2Array = [];
-    const navigate = useNavigate()
     const multiplayer = process.env.REACT_APP_SCORE_MULTIPLAYER;
 
-    const { index, setIndex } = useContext(Context)
+    const { index, setIndex, completeIteration } = useContext(Context)
     const { setScore } = useContext(Context)
 
     for (let i = 1; i < p2.length - 1; i++) {
@@ -54,7 +52,7 @@ function LineCard({ p1, p2, p3 }) {
                 setIndex((index) => index + 1)
                 setTimeLeft(30)
             } else {
-                navigate("/result");
+                completeIteration()
             }
         } else {
             pageFormElements.forEach((element) => {
@@ -95,7 +93,7 @@ function LineCard({ p1, p2, p3 }) {
                 setTimeLeft(30)
             }
         } else {
-            navigate("/result");
+            completeIteration()
         }
     }
 

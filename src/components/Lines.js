@@ -1,4 +1,5 @@
 import { CSSProperties, useContext, useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
 import mockedDataIt from '../mock_it.json';
 import mockedDataEng from '../mock_eng.json';
@@ -6,6 +7,7 @@ import { Context } from "./GameContext";
 import GameNavbar from "./GameNavbar";
 import LineCard from "./LineCard";
 import Timer from "./Timer";
+import InterstitialAnnouncement from "./InterstitialAnnouncement";
 import { supabase } from "../utils/SupabaseClient";
 import audio from '../audio.mp3'
 
@@ -21,10 +23,10 @@ function Lines() {
     const [lines, setLines] = useState()
     const [loading] = useState(true)
     const [color] = useState("#ffffff");
-    const { index } = useContext(Context)
-    const { mute } = useContext(Context)
+    const { index, mute, showInterstitial, gameFinished, continueAfterInterstitial } = useContext(Context)
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(true);
+    const navigate = useNavigate()
 
     const toggleSound = () => {
         if (isPlaying) {
@@ -44,8 +46,14 @@ function Lines() {
         }
     }, []);
 
+    useEffect(() => {
+        if (gameFinished) {
+            navigate("/result")
+        }
+    }, [gameFinished, navigate])
+
     async function getLines() {
-        
+        setLines(undefined);
         let language = localStorage.getItem("language");
         var mockedData = language === "IT" ? mockedDataIt : mockedDataEng
         
@@ -79,6 +87,11 @@ function Lines() {
         }
     }
 
+    const continueGame = () => {
+        continueAfterInterstitial();
+        getLines();
+    }
+
     return (
         <div>
 
@@ -104,6 +117,7 @@ function Lines() {
                 }
 
             </div>
+            {showInterstitial && <InterstitialAnnouncement onContinue={continueGame} />}
         </div>
     )
 }
