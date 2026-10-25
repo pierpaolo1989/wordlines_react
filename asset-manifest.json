@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/wordlines_react/static/css/main.b03ccc0c.css",
-    "main.js": "/wordlines_react/static/js/main.3c0c3d4e.js",
+    "main.css": "/wordlines_react/static/css/main.b720c69d.css",
+    "main.js": "/wordlines_react/static/js/main.2350fad9.js",
     "static/js/952.ae90388e.chunk.js": "/wordlines_react/static/js/952.ae90388e.chunk.js",
     "static/js/453.0bdb9e52.chunk.js": "/wordlines_react/static/js/453.0bdb9e52.chunk.js",
     "static/media/audio.mp3": "/wordlines_react/static/media/audio.d88493f1ff8f876fde70.mp3",
     "index.html": "/wordlines_react/index.html",
-    "main.b03ccc0c.css.map": "/wordlines_react/static/css/main.b03ccc0c.css.map",
-    "main.3c0c3d4e.js.map": "/wordlines_react/static/js/main.3c0c3d4e.js.map",
+    "main.b720c69d.css.map": "/wordlines_react/static/css/main.b720c69d.css.map",
+    "main.2350fad9.js.map": "/wordlines_react/static/js/main.2350fad9.js.map",
     "952.ae90388e.chunk.js.map": "/wordlines_react/static/js/952.ae90388e.chunk.js.map",
     "453.0bdb9e52.chunk.js.map": "/wordlines_react/static/js/453.0bdb9e52.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b03ccc0c.css",
-    "static/js/main.3c0c3d4e.js"
+    "static/css/main.b720c69d.css",
+    "static/js/main.2350fad9.js"
   ]
 }
