@@ -25,7 +25,7 @@ function MainPageNavbar() {
   }
 
   const support = () => {
-    navigate("support");
+    navigate("/support");
   }
 
 
@@ -96,7 +96,7 @@ function MainPageNavbar() {
                       aria-labelledby="menu-button" tabIndex="-1" style={{ 'display': open ? 'block' : 'none' }}>
                       <div className="py-1" role="none">
                         <a href="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={profile}>Profile</a>
-                        <a href="#" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={support}>Support</a>
+                        <button type="button" className="block w-full px-4 py-2 text-left text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={support}>Support</button>
                         <button type="submit" className="block w-full px-4 py-2 text-left text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-3" onClick={logout}>Log out</button>
                       </div>
                     </div>

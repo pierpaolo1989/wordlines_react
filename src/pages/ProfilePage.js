@@ -131,15 +131,21 @@ function Profile({ session }) {
                 onChange={(e) => setUsername(e.target.value)}
               />
 
-              <button
-                className="mt-10 text-lg text-white font-semibold bg-blue-500 py-2 px-4 rounded-md focus:outline-none focus:ring-2"
-                type="submit"
-              >
-                {loading ? 'Loading ...' : 'Update'}
-              </button>
-              <button className="mt-5 text-lg text-white font-semibold bg-blue-500 py-2 px-4 rounded-md focus:outline-none focus:ring-2" type="button" onClick={logout}>
-                Sign Out
-              </button>
+              <div className="mt-10 flex gap-2">
+                <button
+                  className="flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border"
+                  type="submit"
+                >
+                  {loading ? 'Loading ...' : 'Update'}
+                </button>
+                <button
+                  className="flex-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border"
+                  type="button"
+                  onClick={logout}
+                >
+                  Sign Out
+                </button>
+              </div>
             </form>
           </div>
         </div>

@@ -6,7 +6,11 @@ function Avatar({ url, size, onUpload }) {
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
-    if (url) downloadImage(url)
+    if (url) {
+      downloadImage(url)
+    } else {
+      setAvatarUrl(null)
+    }
   }, [url])
 
   async function downloadImage(path) {
@@ -59,10 +63,15 @@ function Avatar({ url, size, onUpload }) {
           style={{ height: size, width: size }}
         />
       ) : (
-        <div className="avatar no-image" style={{ height: size, width: size }} />
+        <img
+          src={`${process.env.PUBLIC_URL}/avatar.png`}
+          alt="Default avatar"
+          className="avatar image"
+          style={{ height: size, width: size }}
+        />
       )}
       <div style={{ width: size }} className='mb-5'>
-        <label className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" htmlFor="single">
+        <label className="cursor-pointer rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>
         <input
