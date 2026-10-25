@@ -1,6 +1,6 @@
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useContext, useRef } from "react";
 import { Context } from "./GameContext";
 import BadgeButton from "./ButtonWithBadge.js";
 
@@ -10,6 +10,7 @@ function LineCard({ p1, p2, p3 }) {
     const { setTimeLeft } = useContext(Context)
     const { numberHelp1, setNumberHelp1 } = useContext(Context)
     const { numberHelp2, setNumberHelp2 } = useContext(Context)
+    const hintedLetters = useRef(new Map())
 
 
     const p2Array = [];
@@ -38,6 +39,20 @@ function LineCard({ p1, p2, p3 }) {
 
     const getAllFormElements = element => Array.from(element.elements).filter(tag => ["input"].includes(tag.tagName.toLowerCase()));
 
+    const clearTypedLetters = (formEl) => {
+        const inputs = getAllFormElements(formEl)
+        inputs.forEach((element, idx) => {
+            if (hintedLetters.current.get(idx) !== element.value) {
+                element.value = "";
+            }
+        });
+
+        const firstEditableInput = inputs.find((element, idx) =>
+            hintedLetters.current.get(idx) !== element.value
+        );
+        firstEditableInput?.focus();
+    }
+
     const checkWord = () => {
         let formEl = document.forms.Word;
         const pageFormElements = getAllFormElements(formEl);
@@ -55,10 +70,7 @@ function LineCard({ p1, p2, p3 }) {
                 completeIteration()
             }
         } else {
-            pageFormElements.forEach((element) => {
-                element.value = "";
-                formEl[0].focus();
-            });
+            clearTypedLetters(formEl);
         }
     }
 
@@ -71,7 +83,9 @@ function LineCard({ p1, p2, p3 }) {
                 setNumberHelp2(prev => prev - 1);
                 pageFormElements.forEach((element, idx) => {
                     if (element.value === "" || element.value === undefined) {
-                        element.value = p2.substring(idx + 1, idx + 2);
+                        const hintedLetter = p2.substring(idx + 1, idx + 2);
+                        element.value = hintedLetter;
+                        hintedLetters.current.set(idx, hintedLetter);
                         formEl[idx + 1].focus();
                         isFound = true
                     };
@@ -113,13 +127,13 @@ function LineCard({ p1, p2, p3 }) {
     const handleKeyPress = (event) => {
         if (event.keyCode === 13) {
             checkWord();
-        } else if (event.keyCode === 8) {
-            let formEl = document.forms.Word;
-            const pageFormElements = getAllFormElements(formEl);
-            pageFormElements.forEach((element) => {
-                element.value = "";
-                formEl[0].focus();
-            });
+        }
+    }
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Backspace") {
+            event.preventDefault();
+            clearTypedLetters(event.currentTarget.form);
         }
     }
 
@@ -132,10 +146,12 @@ function LineCard({ p1, p2, p3 }) {
                     {p2Array.map((x, i) =>
                         i === 0 ?
                             <input type="text" style={style} onChange={(event) => handleChange(event)} autoFocus key={i}
+                                onKeyDownCapture={handleKeyDown}
                                 onKeyUpCapture={(event) => handleKeyPress(event)}
                                 className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 maxLength="1"></input>
                             : <input type="text" style={style} onChange={(event) => handleChange(event)} key={i}
+                                onKeyDownCapture={handleKeyDown}
                                 onKeyUpCapture={(event) => handleKeyPress(event)}
                                 className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 maxLength="1"></input>
