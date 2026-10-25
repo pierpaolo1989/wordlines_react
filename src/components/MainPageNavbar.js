@@ -2,7 +2,7 @@ import { faSignIn, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import '../components/animations/LifeAnimation.css';
 import { supabase } from "../utils/SupabaseClient";
 import { Context } from "./GameContext";
@@ -10,9 +10,9 @@ import { Context } from "./GameContext";
 function MainPageNavbar() {
 
   const navigate = useNavigate()
+  const location = useLocation()
   const style = { "backgroundColor": "#282c34" }
   const [ user, setUser ] = useState(null)
-  const [ currentPath, setCurrentPath ] = useState(null)
   const [ open, setOpen ] = useState(false)
   const { mute, setMute } = useContext(Context)
 
@@ -21,7 +21,7 @@ function MainPageNavbar() {
   }
 
   const login = () => {
-    navigate("login");
+    navigate("/login");
   }
 
   const support = () => {
@@ -34,7 +34,7 @@ function MainPageNavbar() {
   }
 
   const profile = () => {
-    navigate("profile");
+    navigate("/profile");
   }
 
   const logout = async () => {
@@ -51,8 +51,6 @@ function MainPageNavbar() {
   };
 
   useEffect(() => {
-    let pathname = window.location.pathname;
-    setCurrentPath(pathname);
     getProfile();
   }, []);
 
@@ -66,7 +64,7 @@ function MainPageNavbar() {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex flex-shrink-0 items-center">
-              {currentPath !== "/" && currentPath !='/wordlines_react' ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
+              {location.pathname !== "/" && location.pathname !== '/wordlines_react' ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
                 <FontAwesomeIcon icon={faHome} className="text-white-500 m-1" /> 
               </span>: <></>}
             </div>
