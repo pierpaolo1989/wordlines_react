@@ -36,8 +36,8 @@ const data = {
             Cras eu metus quis leo vestibulum feugiat nec sagittis lacus.Mauris vulputate arcu sed massa euismod dignissim. `,
         },
         {
-            title: "What is the package version",
-            content: <p>current version is 1.2.1</p>,
+            title: "Vi è un limite di punti che posso accumulare?",
+            content: <p>Non ci sono limiti se non quello relativo al prelievo minimo, pari a 5.000 coins.</p>,
         },
     ],
 };
