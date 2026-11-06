@@ -18,9 +18,10 @@ function Login() {
     const { error } = await supabase.auth.signInWithOAuth(
       {
         provider: 'github',
-      },
-      {
-        redirectTo: process.env.REACT_APP_REDIRECT_LOGIN_URL,
+        options: {
+          redirectTo: process.env.REACT_APP_REDIRECT_LOGIN_URL ||
+            `${window.location.origin}${process.env.PUBLIC_URL || ''}/`,
+        },
       }
     );
 
