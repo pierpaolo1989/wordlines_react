@@ -2,7 +2,7 @@ import { faSignIn, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import '../components/animations/LifeAnimation.css';
 import { supabase } from "../utils/SupabaseClient";
 import { Context } from "./GameContext";
@@ -31,10 +31,6 @@ function MainPageNavbar() {
 
   const dropdown = () => {
     setOpen(oldValue => !oldValue);
-  }
-
-  const profile = () => {
-    navigate("/profile");
   }
 
   const logout = async () => {
@@ -93,7 +89,7 @@ function MainPageNavbar() {
                     <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical"
                       aria-labelledby="menu-button" tabIndex="-1" style={{ 'display': open ? 'block' : 'none' }}>
                       <div className="py-1" role="none">
-                        <a href="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={profile}>Profile</a>
+                        <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-0" onClick={() => setOpen(false)}>Profile</Link>
                         <button type="button" className="block w-full px-4 py-2 text-left text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-1" onClick={support}>Support</button>
                         <button type="submit" className="block w-full px-4 py-2 text-left text-sm text-gray-700" role="menuitem" tabIndex="-1" id="menu-item-3" onClick={logout}>Log out</button>
                       </div>
