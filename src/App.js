@@ -11,6 +11,7 @@ import Result from './pages/ResultPage';
 import Support from './pages/SupportPage';
 import BattlePage from './pages/BattlePage';
 import Privacy from './pages/PrivacyPage';
+import LeaderboardPage from './pages/LeaderboardPage';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/lines/:language"element={<Lines />} />
         <Route path="/result" element={<Result />} />
         <Route path="/battle" element={<BattlePage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         <Route path="/profile" element={<Account />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Register />} />

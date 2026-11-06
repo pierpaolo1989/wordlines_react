@@ -16,6 +16,10 @@ function MainPage() {
         navigate("/battle");
     }
 
+    const leaderboard = () => {
+        navigate("/leaderboard");
+    }
+
 
     const selectLanguage = (id) => {
         let element = document.getElementById(id);
@@ -41,6 +45,10 @@ function MainPage() {
                     <button className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64"
                         onClick={() => battle()}>
                         Battle
+                    </button>
+                    <button className="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64"
+                        onClick={leaderboard}>
+                        Classifica
                     </button>
                 </div>
                 </div>
