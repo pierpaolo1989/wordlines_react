@@ -19,8 +19,7 @@ function Login() {
       {
         provider: 'github',
         options: {
-          redirectTo: process.env.REACT_APP_REDIRECT_LOGIN_URL ||
-            `${window.location.origin}${process.env.PUBLIC_URL || ''}/`,
+          redirectTo: 'https://pierpaolo1989.github.io/wordlines_react/',
         },
       }
     );
