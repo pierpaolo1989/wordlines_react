@@ -2,6 +2,36 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Partite e classifica
+
+Per abilitare i risultati, applicare [supabase/battle.sql](supabase/battle.sql)
+nel SQL editor del progetto Supabase. La migrazione presuppone che la tabella
+`public.score` esista già e abbia `id`, `username`, `language` e `score`; le
+normali autorizzazioni di lettura della classifica devono restare abilitate.
+Le funzioni richiedono l'accesso RPC ai ruoli `anon` e `authenticated`.
+
+Nel gioco classico l'ospite inserisce il nome al termine; per un utente
+autenticato si usa il nome del profilo (oppure il nome del provider o
+«Giocatore»). Il punteggio viene salvato nella classifica della lingua
+selezionata e l'utente autenticato vede la posizione della propria partita.
+A parità di punti l'ordinamento è per ID crescente.
+
+La battle abbina due giocatori della stessa lingua, anche ospiti, che giocano
+in parallelo la stessa sequenza e con le stesse regole del classico. Ogni
+giocatore termina autonomamente; quando entrambi hanno finito vengono mostrati
+punteggi, vincitore o pareggio. Le battle non alimentano la classifica
+classica. Una lobby senza avversario scade dopo dieci minuti; usare il pulsante
+home per abbandonare una battle e avvisare l'avversario. Aggiornare o chiudere
+la pagina interrompe la sessione locale: non è previsto il recupero della
+partita, e l'avversario dovrà abbandonarla.
+
+I punteggi e le parole sono elaborati dal browser: le funzioni Supabase non
+costituiscono una protezione anti-cheat. Per una classifica competitiva
+attendibile occorre validare server-side le partite e le risposte.
+
+Il pulsante sole/luna nella barra della home cambia il tema dell'app. Il tema
+iniziale è scuro; la scelta viene conservata nel browser e vale per tutte le pagine.
+
 ## Available Scripts
 
 In the project directory, you can run:

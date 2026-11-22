@@ -4,7 +4,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 function Privacy() {
     return (
-        <div style={{ "backgroundColor": "#282c34", "width": "auto" }} className="p-10">
+        <div className="theme-surface theme-prose min-h-screen p-10">
             <div className="mb-4 flex items-center gap-4">
                 <Link
                     to="/"

@@ -113,14 +113,15 @@ function LineCard({ p1, p2, p3 }) {
 
     const handleChange = (event) => {
         const form = event.target.form;
-        const _index = [...form].indexOf(event.target);
+        const inputs = getAllFormElements(form);
+        const _index = inputs.indexOf(event.target);
         if (_index < p2Array.length - 1) {
-            form[_index + 1].focus();
+            inputs[_index + 1].focus();
             event.preventDefault();
         } else if (_index < p2Array.length) {
-            form[_index].focus();
+            inputs[_index].focus();
         } else {
-            form[_index].blur();
+            event.target.blur();
         }
     }
 
@@ -138,28 +139,23 @@ function LineCard({ p1, p2, p3 }) {
     }
 
     return (
-        <div className="text-center">
-            <p className="text-5xl xs:text-base">{p1.toUpperCase()}</p>
+        <div className="line-card text-center">
+            <p className="line-card-clue">{p1.toUpperCase()}</p>
             <div className="second_word mt-5">
-                <form id="Word">
-                    <span className="mr-2">{firstLetter.toUpperCase()}</span>
+                <form id="Word" className="line-card-letters">
+                    <span>{firstLetter.toUpperCase()}</span>
                     {p2Array.map((x, i) =>
-                        i === 0 ?
-                            <input type="text" style={style} onChange={(event) => handleChange(event)} autoFocus key={i}
-                                onKeyDownCapture={handleKeyDown}
-                                onKeyUpCapture={(event) => handleKeyPress(event)}
-                                className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                maxLength="1"></input>
-                            : <input type="text" style={style} onChange={(event) => handleChange(event)} key={i}
-                                onKeyDownCapture={handleKeyDown}
-                                onKeyUpCapture={(event) => handleKeyPress(event)}
-                                className="w-8 mx-2 shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                maxLength="1"></input>
+                        <input type="text" style={style} onChange={handleChange} autoFocus={i === 0} key={i}
+                            aria-label={`Lettera ${i + 2}`}
+                            onKeyDownCapture={handleKeyDown}
+                            onKeyUpCapture={handleKeyPress}
+                            className="line-card-input shadow appearance-none border rounded text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            maxLength="1" />
                     )}
-                    <span className="ml-2">{lastLetter.toUpperCase()}</span>
+                    <span>{lastLetter.toUpperCase()}</span>
                 </form>
             </div>
-            <p className="text-5xl xs:text-base mt-5">{p3.toUpperCase()}</p>
+            <p className="line-card-clue mt-5">{p3.toUpperCase()}</p>
             <div className="pulsantiera">
                 <button className="bg-blue-500 mt-10 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border"
                     onClick={checkWord}>

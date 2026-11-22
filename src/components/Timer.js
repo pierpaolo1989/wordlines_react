@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "./GameContext";
 
-const Timer = () => {
+const Timer = ({ navigateOnFinish = true }) => {
   const {
     timeLeft,
     setTimeLeft,
@@ -60,10 +60,10 @@ const Timer = () => {
   ]);
 
   useEffect(() => {
-    if (gameFinished) {
+    if (gameFinished && navigateOnFinish) {
       navigate("/result")
     }
-  }, [gameFinished, navigate])
+  }, [gameFinished, navigate, navigateOnFinish])
 
   return (
     <div>
@@ -71,7 +71,7 @@ const Timer = () => {
         className={`transition-transform duration-300 ${
           timeLeft <= 5
             ? 'text-red-500 scale-125 animate-pulse'
-            : 'text-neutral-50 scale-100'
+            : 'theme-text text-neutral-50 scale-100'
         }`}
       >
         {timeLeft}

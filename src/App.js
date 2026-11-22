@@ -12,11 +12,13 @@ import Support from './pages/SupportPage';
 import BattlePage from './pages/BattlePage';
 import Privacy from './pages/PrivacyPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import { ThemeProvider } from './components/ThemeContext';
 
 function App() {
 
-  localStorage.setItem("language", "IT")
+  if (!localStorage.getItem("language")) localStorage.setItem("language", "IT")
   return (
+    <ThemeProvider>
     <GameContext>
     <BrowserRouter basename={process.env.PUBLIC_URL || '/'}>
     <Routes>
@@ -34,6 +36,7 @@ function App() {
     </Routes>
   </BrowserRouter>
   </GameContext>
+  </ThemeProvider>
   );
 }
 

@@ -12,19 +12,19 @@ function InterstitialAnnouncement({ onContinue }) {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-gray-950 px-4"
+            className="theme-overlay fixed inset-0 z-50 flex items-center justify-center bg-gray-950 px-4"
             role="dialog"
             aria-modal="true"
             aria-labelledby="interstitial-title"
         >
-            <div className="w-full max-w-xl rounded-lg border border-gray-600 bg-[#282c34] p-8 text-center text-white shadow-xl">
-                <p className="mb-3 text-sm uppercase tracking-widest text-gray-400">
+            <div className="theme-surface theme-text w-full max-w-xl rounded-lg border border-gray-600 p-8 text-center text-white shadow-xl">
+                <p className="theme-muted mb-3 text-sm uppercase tracking-widest text-gray-400">
                     Spazio annuncio
                 </p>
                 <h2 id="interstitial-title" className="mb-4 text-3xl font-bold">
                     Pausa tra le catene
                 </h2>
-                <p className="mb-8 text-gray-300">
+                <p className="theme-muted mb-8 text-gray-300">
                     Questa schermata è un segnaposto: non viene mostrata una pubblicità reale.
                 </p>
                 <button

@@ -39,9 +39,9 @@ function Footer() {
 
     return (
         <>
-            <div className="bg-gray-900" style={{ "backgroundColor": "#282c34" }}>
+            <div className="theme-surface bg-gray-900">
                 <div className="mt-minus-20 max-w-2xl mx-auto text-white">
-                    <div className="flex flex-col md:flex-row md:justify-center items-center text-sm text-gray-400">
+                    <div className="theme-muted flex flex-col md:flex-row md:justify-center items-center text-sm text-gray-400">
                         <div className="order-1 md:order-2" style={{ 'margin-top': '-45px' }}>
                             <button type="button" className="px-2 border-l pointer" onClick={() => setAboutOpen(true)}>
                                 About me
@@ -55,8 +55,7 @@ function Footer() {
 
             {aboutOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-gray-900 text-white"
-                    style={{ backgroundColor: "#282c34" }}
+                    className="theme-surface theme-text fixed inset-0 z-50 flex flex-col overflow-y-auto bg-gray-900 text-white"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="about-title"
@@ -83,7 +82,7 @@ function Footer() {
                         <h2 id="about-title" className="mb-4 text-3xl font-bold">
                             Pierpaolo Di Dato
                         </h2>
-                        <p className="mb-8 max-w-xl text-lg text-gray-300">
+                        <p className="theme-muted mb-8 max-w-xl text-lg text-gray-300">
                             Creatore di WordLines, un gioco di parole pensato per mettere alla prova
                             le proprie conoscenze e divertirsi. Il progetto unisce la passione per
                             lo sviluppo software alla voglia di creare un’esperienza semplice e

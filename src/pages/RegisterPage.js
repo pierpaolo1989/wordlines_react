@@ -49,7 +49,7 @@ function Register() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800">
+    <div className="theme-auth h-screen flex items-center justify-center bg-gray-800">
 
       <Link
         to="/"

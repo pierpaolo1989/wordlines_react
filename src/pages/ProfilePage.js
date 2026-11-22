@@ -10,9 +10,6 @@ function Profile({ session }) {
   const [website, setWebsite] = useState(null)
   const [avatar_url, setAvatarUrl] = useState(null)
   const navigate = useNavigate();
-  const style = {
-    "backgroundColor": "#282c34"
-  }
 
   useEffect(() => {
     let ignore = false
@@ -79,7 +76,7 @@ function Profile({ session }) {
   return (
     <>
       <MainPageNavbar />
-      <div className="h-screen flex items-center justify-center" style={style}>
+      <div className="theme-surface theme-auth h-screen flex items-center justify-center">
         <div className="max-w-lg w-full">
           <h1 className="text-3xl font-semibold text-center text-white">
             Profile

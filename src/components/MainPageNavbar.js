@@ -1,17 +1,17 @@
-import { faSignIn, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
+import { faSignIn, faUser, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import '../components/animations/LifeAnimation.css';
 import { supabase } from "../utils/SupabaseClient";
 import { Context } from "./GameContext";
+import ThemeToggle from "./ThemeToggle";
 
 function MainPageNavbar() {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const style = { "backgroundColor": "#282c34" }
   const [ user, setUser ] = useState(null)
   const [ open, setOpen ] = useState(false)
   const { mute, setMute } = useContext(Context)
@@ -50,40 +50,40 @@ function MainPageNavbar() {
     getProfile();
   }, []);
 
-  const goToHome = () => {
-    navigate("/");
-}
-
   return (
-    <nav style={style}>
+    <nav className="theme-surface">
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
-          <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="flex flex-1 items-center justify-start">
             <div className="flex flex-shrink-0 items-center">
-              {location.pathname !== "/" && location.pathname !== '/wordlines_react' ? <span className="font-semibold text-xl text-white tracking-tight mr-5" style={{ 'cursor': 'pointer' }} onClick={goToHome}>
-                <FontAwesomeIcon icon={faHome} className="text-white-500 m-1" /> 
-              </span>: <></>}
+              {location.pathname !== "/" && (
+                <Link to="/" aria-label="Torna alla home"
+                  className="flex-shrink-0 rounded-full bg-gray-700 p-3 text-base text-white shadow-lg transition-colors duration-200 hover:bg-gray-600">
+                  <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+                </Link>
+              )}
             </div>
             <div className="hidden sm:ml-6 sm:block">
             </div>
           </div>
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className="flex space-x-4">
-              <a onClick={login} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={user ? { "cursor": "pointer", "display": "none" } : { "cursor": "pointer" }}>
-                <FontAwesomeIcon icon={faSignIn} className="text-white" />
-              </a>
-              <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
-                <FontAwesomeIcon icon={mute ? faVolumeXmark : faVolumeHigh} className="text-white" onClick={toggleSound} />
-              </a>
+          <div className="flex items-center sm:ml-6">
+            <div className="flex items-center gap-4">
+              {!user && (
+                <button type="button" onClick={login} className="nav-action" aria-label="Accedi">
+                  <FontAwesomeIcon icon={faSignIn} aria-hidden="true" />
+                </button>
+              )}
+              <button type="button" onClick={toggleSound} className="nav-action"
+                aria-label={mute ? "Attiva audio" : "Disattiva audio"}>
+                <FontAwesomeIcon icon={mute ? faVolumeXmark : faVolumeHigh} aria-hidden="true" />
+              </button>
+              {location.pathname === "/" && <ThemeToggle />}
               {user ?
                 <div>
                   <div className="relative inline-block text-left">
                     <div>
-                      <button type="button" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" style={{ "cursor": "pointer" }} id="menu-button" aria-expanded="true" aria-haspopup="true" onClick={dropdown}>
-                        <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <img src="%PUBLIC_URL%/avatar.png" />
-                          <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
-                        </svg>
+                      <button type="button" className="nav-action" id="menu-button" aria-label="Menu account" aria-expanded={open} aria-haspopup="true" onClick={dropdown}>
+                        <FontAwesomeIcon icon={faUser} aria-hidden="true" />
                       </button>
                     </div>
                     <div className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical"

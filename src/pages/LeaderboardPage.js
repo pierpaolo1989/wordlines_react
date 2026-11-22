@@ -21,7 +21,8 @@ function LeaderboardPage() {
         .from("score")
         .select("id, username, language, score")
         .eq("language", language)
-        .order("score", { ascending: false });
+        .order("score", { ascending: false })
+        .order("id", { ascending: true });
 
       if (ignore) return;
 
@@ -55,7 +56,7 @@ function LeaderboardPage() {
   return (
     <>
       <MainPageNavbar />
-      <main className="min-h-screen bg-[#282c34] px-4 py-10 text-white">
+      <main className="theme-surface theme-text min-h-screen px-4 py-10 text-white">
         <div className="mx-auto max-w-2xl">
           <h1 className="mb-6 text-center text-3xl font-semibold">
             Classifica
@@ -73,7 +74,7 @@ function LeaderboardPage() {
                 className={`rounded border px-4 py-2 font-medium ${
                   language === code
                     ? "border-blue-500 bg-blue-600 text-white"
-                    : "border-gray-500 bg-gray-800 text-gray-200"
+                    : "theme-card theme-text border-gray-500 bg-gray-800 text-gray-200"
                 }`}
                 onClick={() => selectLanguage(code)}
               >
@@ -83,25 +84,25 @@ function LeaderboardPage() {
           </div>
 
           {loading ? (
-            <p className="text-center text-gray-300" role="status">
+            <p className="theme-muted text-center text-gray-300" role="status">
               Caricamento classifica...
             </p>
           ) : error ? (
-            <p className="text-center text-red-300" role="alert">
+            <p className="theme-error text-center text-red-300" role="alert">
               {error}
             </p>
           ) : scores.length === 0 ? (
-            <p className="text-center text-gray-300">
+            <p className="theme-muted text-center text-gray-300">
               Non ci sono ancora punteggi per questa lingua.
             </p>
           ) : (
-            <ol className="divide-y divide-gray-600 overflow-hidden rounded-lg bg-gray-800">
+            <ol className="theme-card divide-y divide-gray-600 overflow-hidden rounded-lg bg-gray-800">
               {scores.map((entry, index) => (
                 <li
                   key={entry.id}
                   className="flex items-center justify-between gap-4 px-4 py-3"
                 >
-                  <span className="w-10 font-semibold text-gray-300">
+                  <span className="theme-muted w-10 font-semibold text-gray-300">
                     {index + 1}.
                   </span>
                   <span className="flex-1 truncate">

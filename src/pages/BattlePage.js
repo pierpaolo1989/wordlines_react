@@ -1,300 +1,216 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { Context } from "../components/GameContext";
+import GameNavbar from "../components/GameNavbar";
+import InterstitialAnnouncement from "../components/InterstitialAnnouncement";
+import LineCard from "../components/LineCard";
+import Timer from "../components/Timer";
+import mockedDataIt from "../mock_it.json";
+import mockedDataEng from "../mock_eng.json";
 import { supabase } from "../utils/SupabaseClient";
-import mockedData from '../mock_it.json';
-import Timer from '../components/Timer';
-import { Context } from '../components/GameContext';
-import LineCard from '../components/LineCard';
-
+import { getPlayer, scoreLanguage } from "../utils/player";
 
 function BattlePage() {
-  const [player, setPlayer] = useState('');
-  const [gameSession, setGameSession] = useState(null);
-  const [availableSession, setAvailableSession] = useState(null);
-  const [loadingLobby, setLoadingLobby] = useState(true);
-  const [lobbyError, setLobbyError] = useState(false);
-  const [actionInProgress, setActionInProgress] = useState(false);
-  const [lines, setLines] = useState([]);
-  const [errorMessage, setErrorMessage] = useState();
-  const { index } = useContext(Context)
-
-  const findWaitingSession = useCallback(async (currentPlayer) => {
-    const { data, error } = await supabase
-      .from('game_sessions')
-      .select('*')
-      .eq('is_complete', false)
-      .eq('player1', currentPlayer)
-      .is('player2', null)
-      .limit(1)
-      .maybeSingle();
-
-    if (error) {
-      throw error;
-    }
-
-    if (data) {
-      return data;
-    }
-
-    const { data: waitingSession, error: waitingError } = await supabase
-      .from('game_sessions')
-      .select('*')
-      .eq('is_complete', false)
-      .is('player2', null)
-      .neq('player1', currentPlayer)
-      .limit(1)
-      .maybeSingle();
-
-    if (waitingError) {
-      throw waitingError;
-    }
-
-    setAvailableSession(waitingSession);
-    return waitingSession;
-  }, []);
+  const { index, score, gameFinished, showInterstitial, continueAfterInterstitial, resetGame } = useContext(Context);
+  const [player, setPlayer] = useState(undefined);
+  const [name, setName] = useState("");
+  const [battle, setBattle] = useState(null);
+  const [token, setToken] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [identityAttempt, setIdentityAttempt] = useState(0);
+  const submitting = useRef(false);
+  const joiningToken = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    let ignore = false;
-
-    async function loadPlayer() {
-      const { data, error } = await supabase.auth.getUser();
-      if (ignore) return;
-
-      if (error) {
-        setErrorMessage(error.message);
-        setLoadingLobby(false);
-      } else if (data.user) {
-        setPlayer(data.user.email || data.user.id);
-      } else {
-        setErrorMessage('Accedi per partecipare a una battle.');
-        setLoadingLobby(false);
-      }
-    }
-
-    loadPlayer().catch((error) => {
-      if (!ignore) {
-        setErrorMessage(error.message);
-        setLoadingLobby(false);
-      }
+    resetGame();
+    let active = true;
+    getPlayer().then((value) => {
+      if (active) setPlayer(value);
+    }).catch((err) => {
+      if (active) setError(`Impossibile identificare il giocatore: ${err.message}`);
     });
-    return () => {
-      ignore = true;
-    };
-  }, []);
+    return () => { active = false; };
+  }, [resetGame, identityAttempt]);
+
+  const refresh = useCallback(async () => {
+    const { data, error: rpcError } = await supabase.rpc("battle_status", {
+      p_battle_id: battle.id, p_token: token,
+    });
+    if (rpcError) throw rpcError;
+    if (!data) throw new Error("Battle non trovata.");
+    setBattle(data);
+    setError((current) => current.startsWith("Impossibile aggiornare la battle:") ? "" : current);
+  }, [battle?.id, token]);
 
   useEffect(() => {
-    if (!player || gameSession) return undefined;
+    if (!battle || !token || battle.cancelled || (battle.score1 !== null && battle.score2 !== null)) return undefined;
+    let active = true;
+    const poll = () => refresh().catch((err) => {
+      if (active) setError(`Impossibile aggiornare la battle: ${err.message}`);
+    });
+    const interval = setInterval(poll, 3000);
+    return () => { active = false; clearInterval(interval); };
+  }, [battle, token, refresh]);
 
-    let ignore = false;
-    const refreshLobby = async () => {
-      try {
-        const session = await findWaitingSession(player);
-        if (ignore) return;
-
-        setLobbyError(false);
-        setErrorMessage(null);
-        if (session?.player1 === player) {
-          setGameSession(session);
-          setAvailableSession(null);
-        }
-      } catch (error) {
-        if (!ignore) {
-          setLobbyError(true);
-          setErrorMessage(error.message);
-        }
-      } finally {
-        if (!ignore) setLoadingLobby(false);
-      }
-    };
-
-    refreshLobby();
-    const intervalId = setInterval(refreshLobby, 5000);
-    return () => {
-      ignore = true;
-      clearInterval(intervalId);
-    };
-  }, [player, gameSession, findWaitingSession]);
-
-  useEffect(() => {
-    if (!gameSession || gameSession.player2) return undefined;
-
-    let ignore = false;
-    const refreshGameSession = async () => {
-      const { data, error } = await supabase
-        .from('game_sessions')
-        .select('*')
-        .eq('id', gameSession.id)
-        .single();
-
-      if (ignore) return;
-      if (error) {
-        setErrorMessage(error.message);
-      } else if (data) {
-        if (data.player2) {
-          setGameSession(data);
-        }
-      }
-    };
-
-    const intervalId = setInterval(refreshGameSession, 3000);
-    return () => {
-      ignore = true;
-      clearInterval(intervalId);
-    };
-  }, [gameSession]);
-
-  const joinSession = async (session) => {
-    const { data, error } = await supabase
-      .from('game_sessions')
-      .update({ player2: player })
-      .eq('id', session.id)
-      .eq('is_complete', false)
-      .is('player2', null)
-      .select()
-      .maybeSingle();
-
-    if (error) {
-      setErrorMessage(error.message);
-    } else if (!data) {
-      setErrorMessage('Un altro giocatore si è appena unito. Cerco una nuova battle...');
-      setAvailableSession(null);
-      setLoadingLobby(true);
-    } else {
-      setGameSession(data);
-      setAvailableSession(null);
-      setErrorMessage(null);
-      await getLines();
-    }
-  };
-
-  const startGame = async () => {
-    if (!player || actionInProgress) return;
-
-    setActionInProgress(true);
-    setErrorMessage(null);
+  const start = async (event) => {
+    event.preventDefault();
+    const playerName = player?.name || name.trim();
+    if (!playerName || busy) return;
+    setBusy(true);
+    setError("");
     try {
-      const session = await findWaitingSession(player);
-      if (session && session.player1 !== player) {
-        await joinSession(session);
-        return;
-      }
-      if (session) {
-        setGameSession(session);
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('game_sessions')
-        .insert([{ player1: player, current_turn: player }])
-        .select()
-        .single();
-
-      if (error) {
-        setErrorMessage(error.message);
+      const language = scoreLanguage();
+      let lines;
+      if (process.env.REACT_APP_MOCKED === "true") {
+        lines = language === "IT" ? mockedDataIt : mockedDataEng;
       } else {
-        setGameSession(data);
-        setAvailableSession(null);
-        await getLines();
+        const { data, error: linesError } = await supabase.rpc(
+          language === "IT" ? "get_random_lines" : "get_random_lines_eng"
+        );
+        if (linesError) throw linesError;
+        lines = data;
       }
-    } catch (error) {
-      setErrorMessage(error.message);
+      const minimumLines = Number(process.env.REACT_APP_MIN_LINES_PER_GAMES) || 0;
+      if (!Array.isArray(lines) || lines.length <= minimumLines ||
+          lines.some((line) => !line || typeof line.p1 !== "string" ||
+            typeof line.p2 !== "string" || typeof line.p3 !== "string")) {
+        throw new Error("La sequenza di parole non è valida o è troppo breve.");
+      }
+      const newToken = joiningToken.current || crypto.randomUUID();
+      joiningToken.current = newToken;
+      const { data, error: rpcError } = await supabase.rpc("battle_join_or_create", {
+        p_token: newToken, p_name: playerName, p_language: language, p_lines: lines,
+      });
+      if (rpcError) throw rpcError;
+      if (!data) throw new Error("Battle non disponibile.");
+      if (!Array.isArray(data.lines) || data.lines.length <= minimumLines ||
+          data.lines.some((line) => !line || typeof line.p1 !== "string" ||
+            typeof line.p2 !== "string" || typeof line.p3 !== "string")) {
+        throw new Error("La sequenza condivisa non è valida.");
+      }
+      setToken(newToken);
+      setBattle(data);
+    } catch (err) {
+      setError(`Impossibile avviare la battle: ${err.message}`);
     } finally {
-      setActionInProgress(false);
+      setBusy(false);
     }
   };
 
-  const joinGame = async () => {
-    if (!player || actionInProgress) return;
-
-    setActionInProgress(true);
-    setErrorMessage(null);
+  const submitScore = useCallback(async () => {
+    if (!battle || !token || submitting.current || submitted) return;
+    submitting.current = true;
+    setError("");
     try {
-      const session = availableSession || await findWaitingSession(player);
-      if (!session || session.player1 === player) {
-        setErrorMessage('Al momento non ci sono battle disponibili. Puoi avviarne una.');
-        setAvailableSession(null);
-        return;
-      }
-      await joinSession(session);
-    } catch (error) {
-      setErrorMessage(error.message);
+      const { data, error: rpcError } = await supabase.rpc("battle_finish", {
+        p_battle_id: battle.id, p_token: token, p_score: score,
+      });
+      if (rpcError) throw rpcError;
+      if (!data) throw new Error("Risultato non restituito.");
+      setBattle(data);
+      setSubmitted(true);
+    } catch (err) {
+      setError(`Impossibile inviare il risultato: ${err.message}`);
     } finally {
-      setActionInProgress(false);
+      submitting.current = false;
     }
-  }
+  }, [battle, token, score, submitted]);
 
-  async function getLines() {
-    if (process.env.REACT_APP_MOCKED === "true") {
-      setLines(mockedData)
-    } else {
-      const language = localStorage.getItem("language")
-      const { data, error } = await supabase.rpc(language === "IT" ? "get_random_lines" : "get_random_lines_eng");
-      if (error) {
-        setErrorMessage(error.message);
-        return;
-      }
-      setLines(data);
+  useEffect(() => {
+    if (gameFinished && battle && !battle.cancelled && !submitted && !error) submitScore();
+  }, [gameFinished, battle, submitted, error, submitScore]);
+
+  const leave = async (event) => {
+    if (busy) {
+      event.preventDefault();
+      return;
     }
-  }
+    if (!battle || !token || (battle.score1 !== null && battle.score2 !== null)) {
+      resetGame();
+      return;
+    }
+    event.preventDefault();
+    setBusy(true);
+    try {
+      const { error: rpcError } = await supabase.rpc("battle_cancel", {
+        p_battle_id: battle.id, p_token: token,
+      });
+      if (rpcError) throw rpcError;
+      resetGame();
+      navigate("/");
+    } catch (err) {
+      setError(`Impossibile abbandonare la battle: ${err.message}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const complete = battle && battle.score1 !== null && battle.score2 !== null;
+  const winner = complete && (battle.score1 === battle.score2 ? null :
+    battle.score1 > battle.score2 ? battle.player1 : battle.player2);
 
   return (
-    <div className="App-header relative">
-      <Link
-        to="/"
-        aria-label="Torna alla home"
-        className="absolute left-4 top-4 z-10 flex-shrink-0 rounded-full bg-gray-700 p-3 text-base text-white shadow-lg transition-colors duration-200 hover:bg-gray-600 sm:left-6 sm:top-6"
-      >
-        <FontAwesomeIcon icon={faArrowLeft} size="lg" />
-      </Link>
-
-      {/* Inizio Partita */}
-      {!gameSession && (
-        <div className="flex flex-col items-center">
-          {loadingLobby ? (
-            <p>Controllo le battle disponibili...</p>
-          ) : lobbyError ? (
-            <p>Non riesco a controllare le battle. Ricarica la pagina per riprovare.</p>
-          ) : availableSession ? (
-            <>
-              <p className="mb-3">C&apos;è una battle in attesa.</p>
-              <button onClick={joinGame} disabled={actionInProgress} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 disabled:opacity-50">
-                {actionInProgress ? 'Joining...' : 'Join'}
-              </button>
-            </>
-          ) : (
-            <>
-              <p className="mb-3">Non ci sono battle in attesa.</p>
-              <button onClick={startGame} disabled={actionInProgress} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded border w-64 disabled:opacity-50">
-                {actionInProgress ? 'Starting...' : 'Start'}
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
-      {gameSession && !gameSession.player2 && (
-        <p className="mt-6">Battle avviata. In attesa che si unisca un altro giocatore...</p>
-      )}
-
-      {/* Fine Partita */}
-      {errorMessage && (
-        <div>
-          <h2 className="text-red-500 mt-20">{errorMessage}</h2>
-        </div>
-      )}
-
-      {/* Domande */}
-      {lines.length > 0 && player && gameSession?.player2 && (
-        <div>
-          <Timer />
-          <br />
-          <LineCard key={lines[index].id} p1={lines[index].p1} p2={lines[index].p2} p3={lines[index].p3} />
-        </div>
-      )}
-
-    </div>
+    <>
+      {battle?.player2 && !gameFinished && !battle.cancelled && <GameNavbar onHome={leave} />}
+      <div className="App-header relative">
+        {(!battle?.player2 || gameFinished || battle.cancelled) && (
+          <Link to="/" onClick={leave} aria-label="Torna alla home" aria-disabled={busy}
+            className="absolute top-4 left-4 bg-gray-700 hover:bg-gray-600 p-3 rounded-full text-base text-white shadow-lg transition-colors duration-200">
+            <FontAwesomeIcon icon={faArrowLeft} size="lg" />
+          </Link>
+        )}
+        {!battle && (
+          <form onSubmit={start} className="flex flex-col items-center gap-3">
+            {player === undefined ? <p>Identificazione giocatore...</p> : (
+              <>
+                {player ? <p>Giocatore: {player.name}</p> : (
+                  <>
+                    <label htmlFor="battle-name">Il tuo nome</label>
+                    <input id="battle-name" value={name} onChange={(event) => setName(event.target.value)}
+                      maxLength={50} required className="rounded px-2 text-gray-900" />
+                  </>
+                )}
+                <button disabled={busy || (!player && !name.trim())} className="rounded border bg-blue-500 px-4 py-2 text-base disabled:opacity-50">
+                  {busy ? "Attendi..." : "Cerca o avvia una battle"}
+                </button>
+              </>
+            )}
+          </form>
+        )}
+        {battle && !battle.player2 && !battle.cancelled && <p>In attesa di un altro giocatore...</p>}
+        {battle?.cancelled && <p>La battle è stata abbandonata.</p>}
+        {battle?.player2 && !gameFinished && !battle.cancelled && (
+          <div>
+            <p>{battle.player1} vs {battle.player2}</p>
+            <Timer navigateOnFinish={false} />
+            <LineCard key={`${index}-${battle.id}`} {...battle.lines[index]} />
+          </div>
+        )}
+        {gameFinished && !battle?.cancelled && !complete && (
+          <p>{submitted ? "Risultato inviato. In attesa dell'avversario..." : "Invio del risultato..."}</p>
+        )}
+        {complete && !battle.cancelled && (
+          <div className="text-center">
+            <h1>{winner ? `Vince ${winner}!` : "Pareggio!"}</h1>
+            <p>{battle.player1}: {battle.score1} punti</p>
+            <p>{battle.player2}: {battle.score2} punti</p>
+          </div>
+        )}
+        {error && <p role="alert" className="theme-error mt-4 text-red-400">{error}</p>}
+        {error && player === undefined && <button onClick={() => {
+          setError("");
+          setIdentityAttempt((attempt) => attempt + 1);
+        }}>Riprova identificazione</button>}
+        {error && gameFinished && !submitted && <button onClick={submitScore}>Riprova invio</button>}
+        {showInterstitial && !gameFinished && !battle?.cancelled &&
+          <InterstitialAnnouncement onContinue={continueAfterInterstitial} />}
+      </div>
+    </>
   );
 }
 

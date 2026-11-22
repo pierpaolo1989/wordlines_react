@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../utils/SupabaseClient";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +10,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('')
+  const navigate = useNavigate();
 
   const handleSignInWithGitHub = async (e) => {
 
@@ -33,18 +34,20 @@ function Login() {
 
     e.preventDefault()
     setLoading(true)
-
-    const { error } = await supabase.auth.signUp({ email, password })
-    if (error) {
-      setError(error.error_description || error.message)
-    } else {
-      alert('Check your email for the login link!')
+    setError('')
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error;
+      navigate("/");
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-800">
+    <div className="theme-auth h-screen flex items-center justify-center bg-gray-800">
        <Link
               to="/"
               className="absolute top-4 left-4 bg-gray-700 hover:bg-gray-600 p-3 rounded-full text-white shadow-lg transition-colors duration-200">
@@ -75,6 +78,7 @@ function Login() {
               placeholder="Enter email"
               id="email"
               value={email}
+              required
               onChange={(e) => setEmail(e.target.value)}
             />
 
@@ -87,6 +91,7 @@ function Login() {
               id="password"
               placeholder="Enter password"
               value={password}
+              required
               onChange={(e) => setPassword(e.target.value)}
             />
 
@@ -97,8 +102,9 @@ function Login() {
             <button
               className="mt-8 text-lg text-white font-semibold bg-blue-500 py-3 px-6 rounded-md focus:outline-none focus:ring-2"
               type="submit"
+              disabled={loading}
             >
-              Sign in with Email
+              {loading ? "Signing in..." : "Sign in with Email"}
             </button>
             <div className="w-100 text-center mt-5 text-white">
               Don't have an account? <Link to={"/registration"}>Register</Link>
